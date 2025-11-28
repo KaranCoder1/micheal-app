@@ -1,0 +1,739 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crypto Elephant</title>
+    <style>
+        :root {
+            /* Dark Mode Variables */
+            --bg-primary: #000000; /* Black */
+            --bg-secondary: #8B0000; /* Dark Red */
+            --accent: #FF0000; /* Bright Red */
+            --text-primary: #FFFFFF; /* White */
+            --text-secondary: #D3D3D3; /* Light Gray */
+            --glow-color: #FF0000; /* Red Glow */
+        }
+
+        /* Light Mode Variables */
+        [data-theme="light"] {
+            --bg-primary: #FFFFFF; /* White */
+            --bg-secondary: #F5F5F5; /* Light Gray */
+            --accent: #8B0000; /* Dark Red */
+            --text-primary: #000000; /* Black */
+            --text-secondary: #333333; /* Dark Gray */
+            --glow-color: #FF0000; /* Red Glow */
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            margin: 0;
+            padding: 0;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        /* Glowing Border Animation */
+        @keyframes glow {
+            0% { box-shadow: 0 0 5px var(--glow-color); }
+            50% { box-shadow: 0 0 15px var(--glow-color), 0 0 30px var(--glow-color); }
+            100% { box-shadow: 0 0 5px var(--glow-color); }
+        }
+
+        .header {
+            background-color: var(--bg-secondary);
+            text-align: center;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            animation: glow 2s infinite;
+        }
+
+        .logo {
+            position: absolute;
+            left: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            overflow: hidden;
+            animation: glow 2s infinite;
+        }
+
+        .logo img {
+            width: 100%;
+            height: auto;
+        }
+
+        .theme-toggle {
+            position: absolute;
+            right: 20px;
+            background-color: var(--accent);
+            color: var(--text-primary);
+            padding: 8px 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            animation: glow 2s infinite;
+        }
+
+        .theme-toggle:hover {
+            background-color: #FF4500; /* Orange-Red for hover */
+        }
+
+        .nav {
+            background-color: var(--bg-secondary);
+            text-align: center;
+            padding: 10px 0;
+            animation: glow 2s infinite;
+        }
+
+        .nav a {
+            color: var(--text-primary);
+            text-decoration: none;
+            padding: 14px 20px;
+            display: inline-block;
+        }
+
+        .nav a:hover {
+            background-color: var(--accent);
+            color: var(--text-secondary);
+        }
+
+        .content {
+            padding: 20px;
+            scroll-margin-top: 70px; /* Offset for fixed nav */
+        }
+
+        .section {
+            background-color: var(--bg-secondary);
+            margin: 10px 0;
+            padding: 20px;
+            text-align: center;
+            border-radius: 10px;
+            animation: glow 2s infinite;
+        }
+
+        .home-tagline {
+            font-size: 2.5em;
+            color: var(--accent);
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        [data-theme="dark"] .home-tagline {
+            color: var(--text-primary); /* White in dark mode */
+        }
+
+        .home-services {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .home-service-item {
+            background-color: var(--bg-primary);
+            padding: 10px 20px;
+            border-radius: 5px;
+            color: var(--text-primary);
+            border: 1px solid var(--accent);
+            animation: glow 2s infinite;
+        }
+
+        .home-text {
+            font-size: 1.1em;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .stats-container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+
+        .stat-item {
+            flex: 1;
+            min-width: 200px;
+            margin: 5px;
+            padding: 15px;
+            background-color: var(--bg-primary);
+            border: 1px solid var(--accent);
+            border-radius: 5px;
+        }
+
+        .stat-number {
+            font-size: 2em;
+            color: var(--accent);
+            margin: 10px 0;
+        }
+
+        .stat-label {
+            font-size: 1.1em;
+            color: var(--text-primary);
+        }
+
+        .service-box {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            padding: 20px;
+            border: 2px solid var(--accent);
+            border-radius: 10px;
+            animation: glow 2s infinite;
+        }
+
+        .service-item {
+            background-color: var(--bg-primary);
+            margin: 10px;
+            padding: 10px;
+            width: 45%;
+            text-align: center;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            box-sizing: border-box;
+            border: 1px solid var(--accent);
+            animation: glow 2s infinite;
+        }
+
+        .service-item:hover {
+            background-color: var(--accent);
+            color: var(--text-primary);
+            transform: scale(1.05);
+        }
+
+        .service-details {
+            display: none;
+            background-color: var(--bg-secondary);
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 5px;
+            text-align: left;
+            font-size: 0.9em;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            width: 100%;
+            box-sizing: border-box;
+            border: 1px solid var(--accent);
+            animation: glow 2s infinite;
+        }
+
+        .service-details.active {
+            display: block;
+            max-height: 600px;
+        }
+
+        .service-details h3 {
+            margin: 10px 0;
+            font-size: 1.1em;
+            color: var(--accent);
+        }
+
+        .service-details ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+
+        .service-details p {
+            margin: 5px 0;
+        }
+
+        .order-button {
+            background-color: var(--accent);
+            color: var(--text-primary);
+            padding: 8px 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 10px;
+            animation: glow 2s infinite;
+        }
+
+        .order-button:hover {
+            background-color: #FF4500;
+        }
+
+        .contact-section {
+            text-align: center;
+        }
+
+        .owner-photo {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin: 0 auto 20px;
+            border: 2px solid var(--accent);
+            animation: glow 2s infinite;
+        }
+
+        .owner-photo img {
+            width: 100%;
+            height: auto;
+        }
+
+        .contact-links {
+            margin-top: 20px;
+        }
+
+        .contact-links a {
+            background-color: var(--accent);
+            color: var(--text-primary);
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            margin: 0 10px;
+            display: inline-block;
+            animation: glow 2s infinite;
+        }
+
+        .contact-links a:hover {
+            background-color: #FF4500;
+        }
+
+        .footer {
+            background-color: var(--bg-secondary);
+            text-align: center;
+            padding: 20px 0;
+            animation: glow 2s infinite;
+        }
+
+        .footer-social {
+            margin-top: 10px;
+        }
+
+        .footer-social a {
+            color: var(--text-primary);
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 18px;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .footer-social a:hover {
+            color: var(--accent);
+        }
+
+        .social-logo {
+            width: 18px;
+            height: 18px;
+            margin-right: 5px;
+            vertical-align: middle;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            .service-item {
+                width: 100%;
+            }
+            .logo {
+                width: 40px;
+                height: 40px;
+            }
+            .header h1 {
+                font-size: 1.5em;
+            }
+            .service-details.active {
+                max-height: 800px;
+            }
+            .owner-photo {
+                width: 100px;
+                height: 100px;
+            }
+            .contact-links a {
+                display: block;
+                margin: 10px 0;
+            }
+            .theme-toggle {
+                padding: 6px 12px;
+                font-size: 0.9em;
+            }
+            .home-tagline {
+                font-size: 1.8em;
+            }
+            .stat-item {
+                width: 100%;
+                margin: 5px 0;
+                padding: 10px;
+            }
+            .stat-number {
+                font-size: 1.5em;
+            }
+            .stat-label {
+                font-size: 1em;
+            }
+            .footer-social a {
+                margin: 5px 10px;
+            }
+            .nav a {
+                padding: 10px 15px;
+                font-size: 0.9em;
+            }
+        }
+    </style>
+</head>
+<body data-theme="dark">
+    <header class="header">
+        <div class="logo">
+            <img src="https://cryptoelephant.netlify.app/Cryto%20elephant.jpg" alt="Crypto Elephant Logo">
+        </div>
+        <h1>Crypto Elephant</h1>
+        <button class="theme-toggle" onclick="toggleTheme()">Light Mode</button>
+    </header>
+    <nav class="nav" role="navigation">
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#services">Services</a>
+        <a href="#contact">Contact</a>
+        <a href="#social-media">Social Media</a>
+    </nav>
+    <main>
+        <section id="home" class="content">
+            <div class="section">
+                <h2 class="home-tagline">Roar your brand success with Crypto Elephant</h2>
+                <div class="home-services">
+                    <div class="home-service-item">AMA</div>
+                    <div class="home-service-item">Binance Live</div>
+                    <div class="home-service-item">Twitter Space</div>
+                    <div class="home-service-item">Airdrop</div>
+                    <div class="home-service-item">Giveaway</div>
+                    <div class="home-service-item">Pin Post Promotion</div>
+                </div>
+                <p class="home-text">
+                    Crypto Elephant is your ultimate partner in the crypto jungle. With our powerful services, we amplify your project’s voice to reach a global audience. From engaging AMAs to viral giveaways, we deliver results that make your brand stand out. Join our trusted community and let’s roar to success together!
+                </p>
+            </div>
+        </section>
+        <section id="about" class="content">
+            <div class="section">
+                <h2>About</h2>
+                <p>
+                    We are a team dedicated to providing innovative crypto solutions, backed by years of expertise and a massive community. Our proven track record ensures your project thrives in the competitive crypto space.
+                </p>
+                <div class="stats-container">
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="250000">0</div>
+                        <div class="stat-label">Social Media Followers</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="4">0</div>
+                        <div class="stat-label">Years of Experience</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="500">0</div>
+                        <div class="stat-label">Total Projects</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section id="services" class="content">
+            <div class="section">
+                <h2>Services</h2>
+                <div class="service-box">
+                    <div class="service-item">
+                        Text AMA
+                        <div class="service-details">
+                            <h3>Text AMA with Crypto Elephant</h3>
+                            <p><strong>Cost:</strong> $250</p>
+                            <h3>What is a Text AMA?</h3>
+                            <p>A Text AMA is a 1-hour live text-based session on platforms like Telegram or Discord, where you answer community questions in real-time. Benefits include:</p>
+                            <ul>
+                                <li>Engage a wide audience with written responses.</li>
+                                <li>Address community doubts to build trust.</li>
+                                <li>Showcase your project’s vision and potential.</li>
+                                <li>Connect with users in a flexible, accessible format.</li>
+                            </ul>
+                            <h3>Why Choose Crypto Elephant?</h3>
+                            <p>Crypto Elephant is verified by Binance and a top Binance Live streamer. Since 2021, we’ve hosted over 800 AMAs, building a vibrant community. Leverage our platform to boost your project’s visibility.</p>
+                            <h3>Procedure to Book:</h3>
+                            <p>Click the Order Now button below.</p>
+                            <a href="#contact" class="order-button">Order Now</a>
+                            <h3>For Further Assistance:</h3>
+                            <p>Reach out on <a href="https://t.me/Elephant_Owner" target="_blank" rel="noopener noreferrer">Telegram</a>.</p>
+                        </div>
+                    </div>
+                    <div class="service-item">
+                        Voice AMA
+                        <div class="service-details">
+                            <h3>Voice AMA with Crypto Elephant</h3>
+                            <p><strong>Cost:</strong> $400</p>
+                            <h3>What is a Voice AMA?</h3>
+                            <p>A Voice AMA is a 1-hour live audio session on platforms like Telegram or Discord, allowing direct interaction with the community. Benefits include:</p>
+                            <ul>
+                                <li>Build personal connections through voice.</li>
+                                <li>Clarify project details in real-time.</li>
+                                <li>Highlight your project’s goals and roadmap.</li>
+                                <li>Engage listeners with a dynamic Q&A.</li>
+                            </ul>
+                            <h3>Why Choose Crypto Elephant?</h3>
+                            <p>Crypto Elephant is verified by Binance and a top Binance Live streamer. Since 2021, we’ve hosted over 800 AMAs, building a vibrant community. Leverage our platform to boost your project’s visibility.</p>
+                            <h3>Procedure to Book:</h3>
+                            <p>Click the Order Now button below.</p>
+                            <a href="#contact" class="order-button">Order Now</a>
+                            <h3>For Further Assistance:</h3>
+                            <p>Reach out on <a href="https://t.me/Elephant_Owner" target="_blank" rel="noopener noreferrer">Telegram</a>.</p>
+                        </div>
+                    </div>
+                    <div class="service-item">
+                        Video AMA
+                        <div class="service-details">
+                            <h3>Video AMA with Crypto Elephant</h3>
+                            <p><strong>Cost:</strong> $450</p>
+                            <h3>What is a Video AMA?</h3>
+                            <p>A Video AMA is a 1-hour live video session on platforms like Telegram or Binance Live, offering face-to-face interaction. Benefits include:</p>
+                            <ul>
+                                <li>Showcase your team’s passion visually.</li>
+                                <li>Address community questions with clarity.</li>
+                                <li>Present your project’s vision dynamically.</li>
+                                <li>Create engaging content for broader reach.</li>
+                            </ul>
+                            <h3>Why Choose Crypto Elephant?</h3>
+                            <p>Crypto Elephant is verified by Binance and a top Binance Live streamer. Since 2021, we’ve hosted over 800 AMAs, building a vibrant community. Leverage our platform to boost your project’s visibility.</p>
+                            <h3>Procedure to Book:</h3>
+                            <p>Click the Order Now button below.</p>
+                            <a href="#contact" class="order-button">Order Now</a>
+                            <h3>For Further Assistance:</h3>
+                            <p>Reach out on <a href="https://t.me/Elephant_Owner" target="_blank" rel="noopener noreferrer">Telegram</a>.</p>
+                        </div>
+                    </div>
+                    <div class="service-item">
+                        Twitter Space AMA
+                        <div class="service-details">
+                            <h3>Twitter Space AMA with Crypto Elephant</h3>
+                            <p><strong>Cost:</strong> $350</p>
+                            <h3>What is a Twitter Space AMA?</h3>
+                            <p>A Twitter Space AMA is a 1-hour live audio session on Twitter Spaces, connecting you with a global crypto audience. Benefits include:</p>
+                            <ul>
+                                <li>Reach Twitter’s crypto community directly.</li>
+                                <li>Answer questions to build trust and interest.</li>
+                                <li>Promote your project’s unique features.</li>
+                                <li>Engage in a trending, accessible format.</li>
+                            </ul>
+                            <h3>Why Choose Crypto Elephant?</h3>
+                            <p>Crypto Elephant is verified by Binance and a top Binance Live streamer. Since 2021, we’ve hosted over 800 AMAs, building a vibrant community. Leverage our platform to boost your project’s visibility.</p>
+                            <h3>Procedure to Book:</h3>
+                            <p>Click the Order Now button below.</p>
+                            <a href="#contact" class="order-button">Order Now</a>
+                            <h3>For Further Assistance:</h3>
+                            <p>Reach out on <a href="https://t.me/Elephant_Owner" target="_blank" rel="noopener noreferrer">Telegram</a>.</p>
+                        </div>
+                    </div>
+                    <div class="service-item">
+                        Binance Live AMA
+                        <div class="service-details">
+                            <h3>Binance Live AMA with Crypto Elephant</h3>
+                            <p><strong>Cost:</strong> $500</p>
+                            <h3>What is a Binance Live AMA?</h3>
+                            <p>A Binance Live AMA is a 1-hour live video session on Binance Live, hosted by our top-tier team. Benefits include:</p>
+                            <ul>
+                                <li>Tap into Binance’s massive audience.</li>
+                                <li>Showcase your project with high credibility.</li>
+                                <li>Engage with real-time video Q&A.</li>
+                                <li>Boost visibility in the crypto ecosystem.</li>
+                            </ul>
+                            <h3>Why Choose Crypto Elephant?</h3>
+                            <p>Crypto Elephant is verified by Binance and a top Binance Live streamer. Since 2021, we’ve hosted over 800 AMAs, building a vibrant community. Leverage our platform to boost your project’s visibility.</p>
+                            <h3>Procedure to Book:</h3>
+                            <p>Click the Order Now button below.</p>
+                            <a href="#contact" class="order-button">Order Now</a>
+                            <h3>For Further Assistance:</h3>
+                            <p>Reach out on <a href="https://t.me/Elephant_Owner" target="_blank" rel="noopener noreferrer">Telegram</a>.</p>
+                        </div>
+                    </div>
+                    <div class="service-item">
+                        Giveaway & Airdrop
+                        <div class="service-details">
+                            <h3>Giveaway & Airdrop with Crypto Elephant</h3>
+                            <p><strong>Cost:</strong> $200</p>
+                            <h3>What is a Giveaway & Airdrop?</h3>
+                            <p>A Giveaway & Airdrop campaign distributes tokens or rewards to attract and engage users. Benefits include:</p>
+                            <ul>
+                                <li>Increase project awareness rapidly.</li>
+                                <li>Attract new users and community members.</li>
+                                <li>Boost social media engagement.</li>
+                                <li>Create buzz around your token launch.</li>
+                            </ul>
+                            <h3>Why Choose Crypto Elephant?</h3>
+                            <p>Crypto Elephant is verified by Binance and a top Binance Live streamer. Our engaged community, built since 2021, ensures your campaign reaches the right audience. Maximize your project’s impact with us.</p>
+                            <h3>Procedure to Book:</h3>
+                            <p>Click the Order Now button below.</p>
+                            <a href="#contact" class="order-button">Order Now</a>
+                            <h3>For Further Assistance:</h3>
+                            <p>Reach out on <a href="https://t.me/Elephant_Owner" target="_blank" rel="noopener noreferrer">Telegram</a>.</p>
+                        </div>
+                    </div>
+                    <div class="service-item">
+                        Partnership Service
+                        <div class="service-details">
+                            <h3>Partnership Service with Crypto Elephant</h3>
+                            <p><strong>Cost:</strong> $1200</p>
+                            <h3>What is a Partnership Service?</h3>
+                            <p>A Partnership Service involves strategic collaboration with Crypto Elephant to promote your project. Benefits include:</p>
+                            <ul>
+                                <li>Access our established community and network.</li>
+                                <li>Co-promote through our social channels.</li>
+                                <li>Enhance credibility with our Binance verification.</li>
+                                <li>Tailored campaigns to meet your goals.</li>
+                            </ul>
+                            <h3>Why Choose Crypto Elephant?</h3>
+                            <p>Crypto Elephant is verified by Binance and a top Binance Live streamer. Our experience since 2021 and strong community make us the ideal partner for your project’s growth.</p>
+                            <h3>Procedure to Book:</h3>
+                            <p>Click the Order Now button below.</p>
+                            <a href="#contact" class="order-button">Order Now</a>
+                            <h3>For Further Assistance:</h3>
+                            <p>Reach out on <a href="https://t.me/Elephant_Owner" target="_blank" rel="noopener noreferrer">Telegram</a>.</p>
+                        </div>
+                    </div>
+                    <div class="service-item">
+                        Pin-Post
+                        <div class="service-details">
+                            <h3>Telegram + Twitter Pin-Post with Crypto Elephant</h3>
+                            <p><strong>Cost:</strong> $150</p>
+                            <h3>What is a Pin-Post?</h3>
+                            <p>A Pin-Post is a promotional post pinned on our Telegram and Twitter channels for maximum visibility. Benefits include:</p>
+                            <ul>
+                                <li>Ensure your project stays at the top of our channels.</li>
+                                <li>Drive traffic to your project’s website or socials.</li>
+                                <li>Reach our engaged crypto audience.</li>
+                                <li>Amplify your message with our trusted platforms.</li>
+                            </ul>
+                            <h3>Why Choose Crypto Elephant?</h3>
+                            <p>Crypto Elephant is verified by Binance and a top Binance Live streamer. Our active Telegram and Twitter communities, built since 2021, guarantee your post gets noticed.</p>
+                            <h3>Procedure to Book:</h3>
+                            <p>Click the Order Now button below.</p>
+                            <a href="#contact" class="order-button">Order Now</a>
+                            <h3>For Further Assistance:</h3>
+                            <p>Reach out on <a href="https://t.me/Elephant_Owner" target="_blank" rel="noopener noreferrer">Telegram</a>.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section id="contact" class="content">
+            <div class="section contact-section">
+                <h2>Contact</h2>
+                <div class="owner-photo">
+                    <img src="https://cryptoelephant.netlify.app/owner.jpg" alt="Crypto Elephant Owner">
+                </div>
+                <p>Reach out DAYTON owner for inquiries or to book our services.</p>
+                <div class="contact-links">
+                    <a href="https://t.me/Elephant_Owner" target="_blank" rel="noopener noreferrer">Telegram Chat</a>
+                    <a href="https://x.com/Cryptoelephanta" target="_blank" rel="noopener noreferrer">Twitter Chat</a>
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer class="footer">
+        <p>© 2025 Crypto Elephant</p>
+        <div class="footer-social" id="social-media">
+            <a href="https://t.me/Cryptoelephant_Ama" target="_blank" rel="noopener noreferrer">
+                <img src="https://cryptoelephant.netlify.app/Tg%20chat.png" alt="Telegram Logo" class="social-logo"> Telegram Group
+            </a>
+            <a href="https://t.me/Cryptoelephant_News" target="_blank" rel="noopener noreferrer">
+                <img src="https://cryptoelephant.netlify.app/Tg%20channel.png" alt="Telegram Logo" class="social-logo"> Telegram Channel
+            </a>
+            <a href="https://x.com/Cryptoelephanta" target="_blank" rel="noopener noreferrer">
+                <img src="https://cryptoelephant.netlify.app/X%20logo.png" alt="X Logo" class="social-logo"> Twitter
+            </a>
+            <a href="https://www.binance.com/en/live/u/32765169" target="_blank" rel="noopener noreferrer">
+                <img src="https://cryptoelephant.netlify.app/Binance.png" alt="Binance Logo" class="social-logo"> Binance Live
+            </a>
+        </div>
+    </footer>
+    <script>
+        // Smooth scrolling for navigation links and order buttons
+        document.querySelectorAll('.nav a, .order-button').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        // Toggle service details on click
+        document.querySelectorAll('.service-item').forEach(item => {
+            item.addEventListener('click', function (e) {
+                e.stopPropagation(); // Prevent event bubbling
+                const details = this.querySelector('.service-details');
+                const isActive = details.classList.contains('active');
+
+                // Close all other details
+                document.querySelectorAll('.service-details').forEach(detail => {
+                    detail.classList.remove('active');
+                    detail.style.maxHeight = '0';
+                });
+
+                // Toggle the clicked item's details
+                if (!isActive) {
+                    details.classList.add('active');
+                    details.style.maxHeight = details.scrollHeight + 'px';
+                }
+            });
+        });
+
+        // Theme toggle function
+        function toggleTheme() {
+            const body = document.body;
+            const currentTheme = body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            body.setAttribute('data-theme', newTheme);
+            document.querySelector('.theme-toggle').textContent = newTheme === 'dark' ? 'Light Mode' : 'Dark Mode';
+        }
+
+        // Counting animation for stats
+        function animateStats() {
+            const stats = document.querySelectorAll('.stat-number');
+            stats.forEach(stat => {
+                const target = parseInt(stat.getAttribute('data-target'));
+                let count = 0;
+                const duration = 2000; // 2 seconds
+                const increment = target / (duration / 16); // 60fps
+
+                function updateCount() {
+                    count += increment;
+                    if (count >= target) {
+                        stat.textContent = target + (target === 250000 ? '+' : target === 500 ? '+' : '');
+                    } else {
+                        stat.textContent = Math.ceil(count) + (target === 250000 ? '+' : target === 500 ? '+' : '');
+                        requestAnimationFrame(updateCount);
+                    }
+                }
+
+                updateCount();
+            });
+        }
+
+        // Intersection Observer for stats animation
+        const aboutSection = document.querySelector('#about');
+        const observer = new IntersectionObserver((entries) => {
+            if (entries[0].isIntersecting) {
+                animateStats();
+                observer.disconnect(); // Run only once
+            }
+        }, { threshold: 0.2 });
+
+        // Fallback: Check if section is visible on load
+        if (aboutSection.getBoundingClientRect().top < window.innerHeight) {
+            animateStats();
+            observer.disconnect();
+        } else {
+            observer.observe(aboutSection);
+        }
+    </script>
+</body>
+</html>
