@@ -3,684 +3,572 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crypto Elephant</title>
+    <title>Crypto World Club</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load Inter font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
     <style>
+        /* Custom styles for theme variables and font */
         :root {
-            /* Dark Mode Variables */
-            --bg-primary: #000000; /* Black */
-            --bg-secondary: #8B0000; /* Dark Red */
-            --accent: #FF0000; /* Bright Red */
-            --text-primary: #FFFFFF; /* White */
-            --text-secondary: #D3D3D3; /* Light Gray */
-            --glow-color: #FF0000; /* Red Glow */
+            /* Dark Mode Variables - Default */
+            --bg-primary: #000000; /* Pure Black */
+            --bg-secondary: #750f0f; /* Very Dark Red/Black */
+            --accent: #ff0000; /* Bright Red */
+            --text-primary: #f3f4f6; /* Light Gray */
+            --text-secondary: #9ca3af; /* Gray */
+            --highlight-green: #10b981; /* Tailwind Emerald 500 */
+            --highlight-yellow: #f59e0b; /* Tailwind Amber 500 */
         }
 
-        /* Light Mode Variables */
         [data-theme="light"] {
-            --bg-primary: #FFFFFF; /* White */
-            --bg-secondary: #F5F5F5; /* Light Gray */
-            --accent: #8B0000; /* Dark Red */
-            --text-primary: #000000; /* Black */
-            --text-secondary: #333333; /* Dark Gray */
-            --glow-color: #FF0000; /* Red Glow */
+            --bg-primary: #ffffff;
+            --bg-secondary: #f3f4f6;
+            --accent: #dc2626; /* Tailwind Red 600 */
+            --text-primary: #1f2937;
+            --text-secondary: #4b5563;
         }
 
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Inter', sans-serif;
             background-color: var(--bg-primary);
             color: var(--text-primary);
-            margin: 0;
-            padding: 0;
-            transition: background-color 0.3s, color 0.3s;
+            transition: background-color 0.5s, color 0.5s;
         }
 
-        /* Glowing Border Animation */
-        @keyframes glow {
-            0% { box-shadow: 0 0 5px var(--glow-color); }
-            50% { box-shadow: 0 0 15px var(--glow-color), 0 0 30px var(--glow-color); }
-            100% { box-shadow: 0 0 5px var(--glow-color); }
-        }
-
-        .header {
-            background-color: var(--bg-secondary);
-            text-align: center;
-            padding: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            animation: glow 2s infinite;
-        }
-
-        .logo {
-            position: absolute;
-            left: 20px;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            overflow: hidden;
-            animation: glow 2s infinite;
-        }
-
-        .logo img {
-            width: 100%;
-            height: auto;
-        }
-
-        .theme-toggle {
-            position: absolute;
-            right: 20px;
-            background-color: var(--accent);
-            color: var(--text-primary);
-            padding: 8px 16px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            animation: glow 2s infinite;
-        }
-
-        .theme-toggle:hover {
-            background-color: #FF4500; /* Orange-Red for hover */
-        }
-
-        .nav {
-            background-color: var(--bg-secondary);
-            text-align: center;
-            padding: 10px 0;
-            animation: glow 2s infinite;
-        }
-
-        .nav a {
-            color: var(--text-primary);
-            text-decoration: none;
-            padding: 14px 20px;
-            display: inline-block;
-        }
-
-        .nav a:hover {
-            background-color: var(--accent);
-            color: var(--text-secondary);
-        }
-
-        .content {
-            padding: 20px;
-            scroll-margin-top: 70px; /* Offset for fixed nav */
-        }
-
-        .section {
-            background-color: var(--bg-secondary);
-            margin: 10px 0;
-            padding: 20px;
-            text-align: center;
-            border-radius: 10px;
-            animation: glow 2s infinite;
-        }
-
-        .home-tagline {
-            font-size: 2.5em;
-            color: var(--accent);
-            margin-bottom: 20px;
-            text-transform: uppercase;
-        }
-
-        [data-theme="dark"] .home-tagline {
-            color: var(--text-primary); /* White in dark mode */
-        }
-
-        .home-services {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 15px;
-            margin: 20px 0;
-        }
-
-        .home-service-item {
-            background-color: var(--bg-primary);
-            padding: 10px 20px;
-            border-radius: 5px;
-            color: var(--text-primary);
-            border: 1px solid var(--accent);
-            animation: glow 2s infinite;
-        }
-
-        .home-text {
-            font-size: 1.1em;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .stats-container {
-            display: flex;
-            justify-content: space-around;
-            flex-wrap: wrap;
-            margin: 20px 0;
-        }
-
-        .stat-item {
-            flex: 1;
-            min-width: 200px;
-            margin: 5px;
-            padding: 15px;
-            background-color: var(--bg-primary);
-            border: 1px solid var(--accent);
-            border-radius: 5px;
-        }
-
-        .stat-number {
-            font-size: 2em;
-            color: var(--accent);
-            margin: 10px 0;
-        }
-
-        .stat-label {
-            font-size: 1.1em;
-            color: var(--text-primary);
-        }
-
-        .service-box {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-around;
-            padding: 20px;
-            border: 2px solid var(--accent);
-            border-radius: 10px;
-            animation: glow 2s infinite;
-        }
-
-        .service-item {
-            background-color: var(--bg-primary);
-            margin: 10px;
-            padding: 10px;
-            width: 45%;
-            text-align: center;
-            border-radius: 5px;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            position: relative;
-            box-sizing: border-box;
-            border: 1px solid var(--accent);
-            animation: glow 2s infinite;
-        }
-
-        .service-item:hover {
-            background-color: var(--accent);
-            color: var(--text-primary);
-            transform: scale(1.05);
-        }
-
+        /* Styling for the Service Details Accordion */
+        /* max-height is now controlled by JavaScript via inline styles for perfect height calculation */
         .service-details {
-            display: none;
-            background-color: var(--bg-secondary);
-            padding: 10px;
-            margin-top: 10px;
-            border-radius: 5px;
-            text-align: left;
-            font-size: 0.9em;
-            max-height: 0;
+            max-height: 0; /* Start hidden */
+            opacity: 0;
+            visibility: hidden;
+            transition: max-height 0.4s ease-out, opacity 0.4s ease-out, visibility 0.4s;
             overflow: hidden;
-            transition: max-height 0.3s ease;
-            width: 100%;
-            box-sizing: border-box;
-            border: 1px solid var(--accent);
-            animation: glow 2s infinite;
         }
 
         .service-details.active {
-            display: block;
-            max-height: 600px;
+            opacity: 1;
+            visibility: visible;
         }
 
-        .service-details h3 {
-            margin: 10px 0;
-            font-size: 1.1em;
-            color: var(--accent);
+        /* Ensuring the header is sticky and visible */
+        .header-sticky {
+            position: sticky;
+            top: 0;
+            z-index: 50;
         }
 
-        .service-details ul {
-            margin: 10px 0;
-            padding-left: 20px;
+        /* Custom glow effect using CSS box-shadow for a more controlled, modern look */
+        .glow-shadow {
+            /* Updated to use bright red from --accent */
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.6); 
         }
 
-        .service-details p {
-            margin: 5px 0;
+        .service-card-glow:hover {
+            /* Updated to use bright red from --accent */
+            box-shadow: 0 0 18px rgba(255, 0, 0, 1), 0 0 8px rgba(255, 0, 0, 0.7) inset;
+            transform: translateY(-5px) scale(1.02); /* Added stronger lift effect */
         }
 
-        .order-button {
-            background-color: var(--accent);
-            color: var(--text-primary);
-            padding: 8px 16px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-block;
-            margin-top: 10px;
-            animation: glow 2s infinite;
+        /* Custom gradient overlay on service item hover */
+        .service-item-hover-gradient:hover::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            /* Updated to use bright red from --accent */
+            background: linear-gradient(180deg, rgba(255, 0, 0, 0.15) 0%, rgba(255, 0, 0, 0.0) 100%);
+            z-index: 0;
+            border-radius: 0.75rem; /* Match rounded-xl */
+            pointer-events: none;
         }
 
-        .order-button:hover {
-            background-color: #FF4500;
-        }
-
-        .contact-section {
-            text-align: center;
-        }
-
-        .owner-photo {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            overflow: hidden;
-            margin: 0 auto 20px;
-            border: 2px solid var(--accent);
-            animation: glow 2s infinite;
-        }
-
-        .owner-photo img {
-            width: 100%;
-            height: auto;
-        }
-
-        .contact-links {
-            margin-top: 20px;
-        }
-
-        .contact-links a {
-            background-color: var(--accent);
-            color: var(--text-primary);
-            padding: 10px 20px;
-            border-radius: 5px;
-            text-decoration: none;
-            margin: 0 10px;
-            display: inline-block;
-            animation: glow 2s infinite;
-        }
-
-        .contact-links a:hover {
-            background-color: #FF4500;
-        }
-
-        .footer {
-            background-color: var(--bg-secondary);
-            text-align: center;
-            padding: 20px 0;
-            animation: glow 2s infinite;
-        }
-
-        .footer-social {
-            margin-top: 10px;
-        }
-
-        .footer-social a {
-            color: var(--text-primary);
-            text-decoration: none;
-            margin: 0 15px;
-            font-size: 18px;
-            display: inline-flex;
-            align-items: center;
-        }
-
-        .footer-social a:hover {
-            color: var(--accent);
-        }
-
-        .social-logo {
-            width: 18px;
-            height: 18px;
-            margin-right: 5px;
-            vertical-align: middle;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 600px) {
-            .service-item {
-                width: 100%;
-            }
-            .logo {
-                width: 40px;
-                height: 40px;
-            }
-            .header h1 {
-                font-size: 1.5em;
-            }
-            .service-details.active {
-                max-height: 800px;
-            }
-            .owner-photo {
-                width: 100px;
-                height: 100px;
-            }
-            .contact-links a {
-                display: block;
-                margin: 10px 0;
-            }
-            .theme-toggle {
-                padding: 6px 12px;
-                font-size: 0.9em;
-            }
-            .home-tagline {
-                font-size: 1.8em;
-            }
-            .stat-item {
-                width: 100%;
-                margin: 5px 0;
-                padding: 10px;
-            }
-            .stat-number {
-                font-size: 1.5em;
-            }
-            .stat-label {
-                font-size: 1em;
-            }
-            .footer-social a {
-                margin: 5px 10px;
-            }
-            .nav a {
-                padding: 10px 15px;
-                font-size: 0.9em;
-            }
+        .service-item {
+            position: relative; /* Needed for the ::after pseudo-element and badge */
         }
     </style>
 </head>
 <body data-theme="dark">
-    <header class="header">
-        <div class="logo">
-            <img src="https://cryptoelephant.netlify.app/Cryto%20elephant.jpg" alt="Crypto Elephant Logo">
-        </div>
-        <h1>Crypto - Elephant</h1>
-        <button class="theme-toggle" onclick="toggleTheme()">Light Mode</button>
-    </header>
-    <nav class="nav" role="navigation">
-        <a href="#home">Home</a>
-        <a href="#about">About</a>
-        <a href="#services">Services</a>
-        <a href="#contact">Contact</a>
-        <a href="#social-media">Social Media</a>
-    </nav>
-    <main>
-        <section id="home" class="content">
-            <div class="section">
-                <h2 class="home-tagline">Roar your brand success with Crypto Elephant</h2>
-                <div class="home-services">
-                    <div class="home-service-item">AMA</div>
-                    <div class="home-service-item">Binance Live</div>
-                    <div class="home-service-item">Twitter Space</div>
-                    <div class="home-service-item">Airdrop</div>
-                    <div class="home-service-item">Giveaway</div>
-                    <div class="home-service-item">Pin Post Promotion</div>
+    <div class="header-sticky">
+        <!-- Header -->
+        <header class="flex items-center justify-between p-4 shadow-xl bg-[var(--bg-secondary)] border-b border-[var(--accent)]">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-full overflow-hidden border-2 border-[var(--accent)] flex-shrink-0">
+                    <img src="assets/imges/icon.png" alt="Crypto World Club Logo" class="w-full h-full object-cover">
                 </div>
-                <p class="home-text">
-                    Crypto Elephant is your ultimate partner in the crypto jungle. With our powerful services, we amplify your project’s voice to reach a global audience. From engaging AMAs to viral giveaways, we deliver results that make your brand stand out. Join our trusted community and let’s roar to success together!
+                <h1 class="text-2xl sm:text-3xl font-bold text-[var(--accent)] tracking-widest uppercase">Crypto World Club</h1>
+            </div>
+            <button class="theme-toggle px-4 py-2 text-sm font-semibold rounded-full transition duration-300 bg-[var(--accent)] text-white hover:bg-red-700 focus:outline-none focus:ring-4 focus:ring-[var(--accent)] focus:ring-opacity-50" onclick="toggleTheme()">Light Mode</button>
+        </header>
+
+        <!-- Navigation -->
+        <nav class="flex justify-center flex-wrap gap-2 sm:gap-6 py-3 bg-[var(--bg-secondary)] border-b border-gray-900">
+            <a href="#home" class="nav-link text-sm sm:text-base font-medium px-3 py-2 rounded-lg transition duration-300 hover:bg-[var(--accent)] hover:text-white">Home</a>
+            <a href="#about" class="nav-link text-sm sm:text-base font-medium px-3 py-2 rounded-lg transition duration-300 hover:bg-[var(--accent)] hover:text-white">About</a>
+            <a href="#services" class="nav-link text-sm sm:text-base font-medium px-3 py-2 rounded-lg transition duration-300 hover:bg-[var(--accent)] hover:text-white">Services</a>
+            <a href="#contact" class="nav-link text-sm sm:text-base font-medium px-3 py-2 rounded-lg transition duration-300 hover:bg-[var(--accent)] hover:text-white">Contact</a>
+            <a href="#social-media" class="nav-link text-sm sm:text-base font-medium px-3 py-2 rounded-lg transition duration-300 hover:bg-[var(--accent)] hover:text-white">Social Media</a>
+        </nav>
+    </div>
+    
+    <main class="container mx-auto p-4 sm:p-6">
+        <!-- Home Section -->
+        <section id="home" class="mb-12 pt-6">
+            <div class="p-6 sm:p-10 rounded-xl bg-[var(--bg-secondary)] shadow-xl glow-shadow border border-[var(--accent)]/50">
+                <h2 class="text-3xl sm:text-5xl font-extrabold text-center mb-6 leading-tight text-[var(--accent)]">
+                    Roar Your Brand Success with Crypto World Club
+                </h2>
+                <div class="flex flex-wrap justify-center gap-3 sm:gap-4 mb-8">
+                    <div class="px-3 py-1 text-sm rounded-full border border-[var(--accent)] text-red-400 bg-gray-900/50">AMA</div>
+                    <div class="px-3 py-1 text-sm rounded-full border border-[var(--accent)] text-red-400 bg-gray-900/50">Binance Live</div>
+                    <div class="px-3 py-1 text-sm rounded-full border border-[var(--accent)] text-red-400 bg-gray-900/50">Twitter Space</div>
+                    <div class="px-3 py-1 text-sm rounded-full border border-[var(--accent)] text-red-400 bg-gray-900/50">Airdrop</div>
+                    <div class="px-3 py-1 text-sm rounded-full border border-[var(--accent)] text-red-400 bg-gray-900/50">Giveaway</div>
+                </div>
+                <p class="text-center max-w-3xl mx-auto text-[var(--text-primary)] leading-relaxed">
+                    Crypto World Club is your ultimate partner in the crypto jungle. With our powerful services, we amplify your project’s voice to reach a global audience. From engaging AMAs to viral giveaways, we deliver results that make your brand stand out. Join our trusted community and let’s roar to success together!
                 </p>
             </div>
         </section>
-        <section id="about" class="content">
-            <div class="section">
-                <h2>About</h2>
-                <p>
+
+        <!-- About Section -->
+        <section id="about" class="mb-12 pt-6">
+            <div class="p-6 sm:p-10 rounded-xl bg-[var(--bg-secondary)] shadow-xl border border-[var(--accent)]/50">
+                <h2 class="text-3xl font-bold text-center mb-8 text-[var(--accent)]">About Our Club</h2>
+                <p class="text-center mb-8 text-[var(--text-secondary)] max-w-2xl mx-auto">
                     We are a team dedicated to providing innovative crypto solutions, backed by years of expertise and a massive community. Our proven track record ensures your project thrives in the competitive crypto space.
                 </p>
-                <div class="stats-container">
-                    <div class="stat-item">
-                        <div class="stat-number" data-target="250000">0</div>
-                        <div class="stat-label">Social Media Followers</div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+                    <div class="stat-item p-6 bg-gray-900 rounded-lg shadow-md border border-[var(--accent)]/50 transition duration-300 hover:bg-gray-900/80">
+                        <div class="stat-number text-4xl font-extrabold text-[var(--accent)] mb-2" data-target="300000">0</div>
+                        <div class="stat-label text-sm uppercase tracking-wider text-[var(--text-primary)]">Social Media Followers</div>
                     </div>
-                    <div class="stat-item">
-                        <div class="stat-number" data-target="4">0</div>
-                        <div class="stat-label">Years of Experience</div>
+                    <div class="stat-item p-6 bg-gray-900 rounded-lg shadow-md border border-[var(--accent)]/50 transition duration-300 hover:bg-gray-900/80">
+                        <div class="stat-number text-4xl font-extrabold text-[var(--accent)] mb-2" data-target="5">0</div>
+                        <div class="stat-label text-sm uppercase tracking-wider text-[var(--text-primary)]">Years of Experience</div>
                     </div>
-                    <div class="stat-item">
-                        <div class="stat-number" data-target="500">0</div>
-                        <div class="stat-label">Total Projects</div>
+                    <div class="stat-item p-6 bg-gray-900 rounded-lg shadow-md border border-[var(--accent)]/50 transition duration-300 hover:bg-gray-900/80">
+                        <div class="stat-number text-4xl font-extrabold text-[var(--accent)] mb-2" data-target="999">0</div>
+                        <div class="stat-label text-sm uppercase tracking-wider text-[var(--text-primary)]">Total Projects</div>
                     </div>
                 </div>
             </div>
         </section>
-        <section id="services" class="content">
-            <div class="section">
-                <h2>Services</h2>
-                <div class="service-box">
-                    <div class="service-item">
-                        Text AMA
-                        <div class="service-details">
-                            <h3>Text AMA with Crypto Elephant</h3>
-                            <p><strong>Cost:</strong> $250</p>
-                            <h3>What is a Text AMA?</h3>
-                            <p>A Text AMA is a 1-hour live text-based session on platforms like Telegram or Discord, where you answer community questions in real-time. Benefits include:</p>
-                            <ul>
+
+        <!-- Services Section (Updated) -->
+        <section id="services" class="mb-12 pt-6">
+            <div class="p-6 sm:p-10 rounded-xl bg-[var(--bg-secondary)] shadow-xl border border-[var(--accent)]/50">
+                <h2 class="text-3xl font-bold text-center mb-8 text-[var(--accent)]">Our Core Services</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    
+                    <!-- Service Item: Text AMA -->
+                    <div class="service-item bg-gray-900 rounded-xl shadow-lg border border-[var(--accent)]/50 overflow-hidden cursor-pointer service-card-glow service-item-hover-gradient">
+                        <!-- Card Header -->
+                        <div class="p-6 text-xl font-semibold flex flex-col items-start text-[var(--accent)]">
+                            <span class="flex items-center text-white text-2xl mb-1"><span class="mr-3 text-2xl">💬</span>Text AMA</span>
+                            <span class="text-sm font-light text-[var(--text-secondary)]">Live text Q&A session.</span>
+                            <strong class="text-lg mt-2 text-[var(--highlight-green)]">Cost: $250</strong>
+                            <svg class="w-5 h-5 transition-transform duration-300 transform chevron flex-shrink-0 ml-auto -mt-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </div>
+                        
+                        <!-- Service Details (Content preserved exactly) -->
+                        <div class="service-details bg-gray-900/70 border-t border-[var(--accent)]/50 p-4">
+                            <h3 class="text-lg font-bold mb-2 text-[var(--accent)]">Text AMA with Crypto World Club</h3>
+                            <p class="mb-2 text-sm text-[var(--text-primary)]"><strong>Cost:</strong> $250</p>
+                            <h3 class="text-lg font-bold mt-3 mb-1 text-[var(--accent)]">What is a Text AMA?</h3>
+                            <p class="text-sm text-[var(--text-secondary)]">A Text AMA is a 1-hour live text-based session on platforms like Telegram or Discord, where you answer community questions in real-time. Benefits include:</p>
+                            <ul class="list-disc list-inside text-sm mt-2 space-y-1 text-[var(--text-secondary)] ml-4">
                                 <li>Engage a wide audience with written responses.</li>
                                 <li>Address community doubts to build trust.</li>
                                 <li>Showcase your project’s vision and potential.</li>
                                 <li>Connect with users in a flexible, accessible format.</li>
                             </ul>
-                            <h3>Why Choose Crypto Elephant?</h3>
-                            <p>Crypto Elephant is verified by Binance and a top Binance Live streamer. Since 2021, we’ve hosted over 800 AMAs, building a vibrant community. Leverage our platform to boost your project’s visibility.</p>
-                            <h3>Procedure to Book:</h3>
-                            <p>Click the Order Now button below.</p>
-                            <a href="#contact" class="order-button">Order Now</a>
-                            <h3>For Further Assistance:</h3>
-                            <p>Reach out on <a href="https://t.me/kscoder" target="_blank" rel="noopener noreferrer">Telegram</a>.</p>
+                            <h3 class="text-lg font-bold mt-3 mb-1 text-[var(--accent)]">Why Choose Crypto World Club?</h3>
+                            <p class="text-sm text-[var(--text-secondary)]">Crypto World Club is verified by Binance and a top Binance Live streamer. Since 2021, we’ve hosted over 800 AMAs, building a vibrant community. Leverage our platform to boost your project’s visibility.</p>
+                            <h3 class="text-lg font-bold mt-3 mb-1 text-[var(--accent)]">Procedure to Book:</h3>
+                            <p class="text-sm text-[var(--text-secondary)]">Click the Order Now button below.</p>
+                            <a href="#contact" class="order-button mt-4 inline-block px-4 py-2 text-sm font-semibold rounded-full bg-[var(--accent)] text-white hover:bg-red-700 transition duration-300">Order Now</a>
+                            <h3 class="text-lg font-bold mt-3 mb-1 text-[var(--accent)]">For Further Assistance:</h3>
+                            <p class="text-xs mt-1 text-red-400">Reach out on <a href="https://t.me/Kavin_World" target="_blank" rel="noopener noreferrer" class="hover:underline">Telegram</a>.</p>
                         </div>
                     </div>
-                    <div class="service-item">
-                        Voice AMA
-                        <div class="service-details">
-                            <h3>Voice AMA with Crypto Elephant</h3>
-                            <p><strong>Cost:</strong> $400</p>
-                            <h3>What is a Voice AMA?</h3>
-                            <p>A Voice AMA is a 1-hour live audio session on platforms like Telegram or Discord, allowing direct interaction with the community. Benefits include:</p>
-                            <ul>
+                    
+                    <!-- Service Item: Voice AMA -->
+                    <div class="service-item bg-gray-900 rounded-xl shadow-lg border border-[var(--accent)]/50 overflow-hidden cursor-pointer service-card-glow service-item-hover-gradient">
+                        <!-- Card Header -->
+                        <div class="p-6 text-xl font-semibold flex flex-col items-start text-[var(--accent)]">
+                            <span class="flex items-center text-white text-2xl mb-1"><span class="mr-3 text-2xl">🎤</span>Voice AMA</span>
+                            <span class="text-sm font-light text-[var(--text-secondary)]">Live audio Q&A session.</span>
+                            <strong class="text-lg mt-2 text-[var(--highlight-green)]">Cost: $400</strong>
+                            <svg class="w-5 h-5 transition-transform duration-300 transform chevron flex-shrink-0 ml-auto -mt-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </div>
+
+                        <!-- Service Details (Content preserved exactly) -->
+                        <div class="service-details bg-gray-900/70 border-t border-[var(--accent)]/50 p-4">
+                            <h3 class="text-lg font-bold mb-2 text-[var(--accent)]">Voice AMA with Crypto World Club</h3>
+                            <p class="mb-2 text-sm text-[var(--text-primary)]"><strong>Cost:</strong> $400</p>
+                            <h3 class="text-lg font-bold mt-3 mb-1 text-[var(--accent)]">What is a Voice AMA?</h3>
+                            <p class="text-sm text-[var(--text-secondary)]">A Voice AMA is a 1-hour live audio session on platforms like Telegram or Discord, allowing direct interaction with the community. Benefits include:</p>
+                            <ul class="list-disc list-inside text-sm mt-2 space-y-1 text-[var(--text-secondary)] ml-4">
                                 <li>Build personal connections through voice.</li>
                                 <li>Clarify project details in real-time.</li>
                                 <li>Highlight your project’s goals and roadmap.</li>
                                 <li>Engage listeners with a dynamic Q&A.</li>
                             </ul>
-                            <h3>Why Choose Crypto Elephant?</h3>
-                            <p>Crypto Elephant is verified by Binance and a top Binance Live streamer. Since 2021, we’ve hosted over 800 AMAs, building a vibrant community. Leverage our platform to boost your project’s visibility.</p>
-                            <h3>Procedure to Book:</h3>
-                            <p>Click the Order Now button below.</p>
-                            <a href="#contact" class="order-button">Order Now</a>
-                            <h3>For Further Assistance:</h3>
-                            <p>Reach out on <a href="https://t.me/kscoder" target="_blank" rel="noopener noreferrer">Telegram</a>.</p>
+                            <h3 class="text-lg font-bold mt-3 mb-1 text-[var(--accent)]">Why Choose Crypto World Club?</h3>
+                            <p class="text-sm text-[var(--text-secondary)]">Crypto World Club is verified by Binance and a top Binance Live streamer. Since 2021, we’ve hosted over 800 AMAs, building a vibrant community. Leverage our platform to boost your project’s visibility.</p>
+                            <h3 class="text-lg font-bold mt-3 mb-1 text-[var(--accent)]">Procedure to Book:</h3>
+                            <p class="text-sm text-[var(--text-secondary)]">Click the Order Now button below.</p>
+                            <a href="#contact" class="order-button mt-4 inline-block px-4 py-2 text-sm font-semibold rounded-full bg-[var(--accent)] text-white hover:bg-red-700 transition duration-300">Order Now</a>
+                            <h3 class="text-lg font-bold mt-3 mb-1 text-[var(--accent)]">For Further Assistance:</h3>
+                            <p class="text-xs mt-1 text-red-400">Reach out on <a href="https://t.me/Kavin_World" target="_blank" rel="noopener noreferrer" class="hover:underline">Telegram</a>.</p>
                         </div>
                     </div>
-                    <div class="service-item">
-                        Video AMA
-                        <div class="service-details">
-                            <h3>Video AMA with Crypto Elephant</h3>
-                            <p><strong>Cost:</strong> $450</p>
-                            <h3>What is a Video AMA?</h3>
-                            <p>A Video AMA is a 1-hour live video session on platforms like Telegram or Binance Live, offering face-to-face interaction. Benefits include:</p>
-                            <ul>
+
+                    <!-- Service Item: Video AMA -->
+                    <div class="service-item bg-gray-900 rounded-xl shadow-lg border border-[var(--accent)]/50 overflow-hidden cursor-pointer service-card-glow service-item-hover-gradient">
+                         <div class="absolute top-0 right-0 mt-3 mr-3 px-3 py-1 bg-[var(--highlight-yellow)] text-gray-900 text-xs font-bold rounded-full shadow-md transform rotate-3 z-10">
+                            Top Tier
+                        </div>
+                        <!-- Card Header -->
+                        <div class="p-6 text-xl font-semibold flex flex-col items-start text-[var(--accent)]">
+                            <span class="flex items-center text-white text-2xl mb-1"><span class="mr-3 text-2xl">🎥</span>Video AMA</span>
+                            <span class="text-sm font-light text-[var(--text-secondary)]">Live video session.</span>
+                            <strong class="text-lg mt-2 text-[var(--highlight-green)]">Cost: $450</strong>
+                            <svg class="w-5 h-5 transition-transform duration-300 transform chevron flex-shrink-0 ml-auto -mt-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </div>
+
+                        <!-- Service Details (Content preserved exactly) -->
+                        <div class="service-details bg-gray-900/70 border-t border-[var(--accent)]/50 p-4">
+                            <h3 class="text-lg font-bold mb-2 text-[var(--accent)]">Video AMA with Crypto World Club</h3>
+                            <p class="mb-2 text-sm text-[var(--text-primary)]"><strong>Cost:</strong> $450</p>
+                            <h3 class="text-lg font-bold mt-3 mb-1 text-[var(--accent)]">What is a Video AMA?</h3>
+                            <p class="text-sm text-[var(--text-secondary)]">A Video AMA is a 1-hour live video session on platforms like Telegram or Binance Live, offering face-to-face interaction. Benefits include:</p>
+                            <ul class="list-disc list-inside text-sm mt-2 space-y-1 text-[var(--text-secondary)] ml-4">
                                 <li>Showcase your team’s passion visually.</li>
                                 <li>Address community questions with clarity.</li>
                                 <li>Present your project’s vision dynamically.</li>
                                 <li>Create engaging content for broader reach.</li>
                             </ul>
-                            <h3>Why Choose Crypto Elephant?</h3>
-                            <p>Crypto Elephant is verified by Binance and a top Binance Live streamer. Since 2021, we’ve hosted over 800 AMAs, building a vibrant community. Leverage our platform to boost your project’s visibility.</p>
-                            <h3>Procedure to Book:</h3>
-                            <p>Click the Order Now button below.</p>
-                            <a href="#contact" class="order-button">Order Now</a>
-                            <h3>For Further Assistance:</h3>
-                            <p>Reach out on <a href="https://t.me/kscoder" target="_blank" rel="noopener noreferrer">Telegram</a>.</p>
+                            <h3 class="text-lg font-bold mt-3 mb-1 text-[var(--accent)]">Why Choose Crypto World Club?</h3>
+                            <p class="text-sm text-[var(--text-secondary)]">Crypto World Club is verified by Binance and a top Binance Live streamer. Since 2021, we’ve hosted over 800 AMAs, building a vibrant community. Leverage our platform to boost your project’s visibility.</p>
+                            <h3 class="text-lg font-bold mt-3 mb-1 text-[var(--accent)]">Procedure to Book:</h3>
+                            <p class="text-sm text-[var(--text-secondary)]">Click the Order Now button below.</p>
+                            <a href="#contact" class="order-button mt-4 inline-block px-4 py-2 text-sm font-semibold rounded-full bg-[var(--accent)] text-white hover:bg-red-700 transition duration-300">Order Now</a>
+                            <h3 class="text-lg font-bold mt-3 mb-1 text-[var(--accent)]">For Further Assistance:</h3>
+                            <p class="text-xs mt-1 text-red-400">Reach out on <a href="https://t.me/Kavin_World" target="_blank" rel="noopener noreferrer" class="hover:underline">Telegram</a>.</p>
                         </div>
                     </div>
-                    <div class="service-item">
-                        Twitter Space AMA
-                        <div class="service-details">
-                            <h3>Twitter Space AMA with Crypto Elephant</h3>
-                            <p><strong>Cost:</strong> $350</p>
-                            <h3>What is a Twitter Space AMA?</h3>
-                            <p>A Twitter Space AMA is a 1-hour live audio session on Twitter Spaces, connecting you with a global crypto audience. Benefits include:</p>
-                            <ul>
+
+                    <!-- Service Item: Twitter Space AMA -->
+                    <div class="service-item bg-gray-900 rounded-xl shadow-lg border border-[var(--accent)]/50 overflow-hidden cursor-pointer service-card-glow service-item-hover-gradient">
+                        <!-- Card Header -->
+                        <div class="p-6 text-xl font-semibold flex flex-col items-start text-[var(--accent)]">
+                            <span class="flex items-center text-white text-2xl mb-1"><span class="mr-3 text-2xl">✖️</span>Twitter Space AMA</span>
+                            <span class="text-sm font-light text-[var(--text-secondary)]">Reach Twitter's global audience.</span>
+                            <strong class="text-lg mt-2 text-[var(--highlight-green)]">Cost: $350</strong>
+                            <svg class="w-5 h-5 transition-transform duration-300 transform chevron flex-shrink-0 ml-auto -mt-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </div>
+
+                        <!-- Service Details (Content preserved exactly) -->
+                        <div class="service-details bg-gray-900/70 border-t border-[var(--accent)]/50 p-4">
+                            <h3 class="text-lg font-bold mb-2 text-[var(--accent)]">Twitter Space AMA with Crypto World Club</h3>
+                            <p class="mb-2 text-sm text-[var(--text-primary)]"><strong>Cost:</strong> $350</p>
+                            <h3 class="text-lg font-bold mt-3 mb-1 text-[var(--accent)]">What is a Twitter Space AMA?</h3>
+                            <p class="text-sm text-[var(--text-secondary)]">A Twitter Space AMA is a 1-hour live audio session on Twitter Spaces, connecting you with a global crypto audience. Benefits include:</p>
+                            <ul class="list-disc list-inside text-sm mt-2 space-y-1 text-[var(--text-secondary)] ml-4">
                                 <li>Reach Twitter’s crypto community directly.</li>
                                 <li>Answer questions to build trust and interest.</li>
                                 <li>Promote your project’s unique features.</li>
                                 <li>Engage in a trending, accessible format.</li>
                             </ul>
-                            <h3>Why Choose Crypto Elephant?</h3>
-                            <p>Crypto Elephant is verified by Binance and a top Binance Live streamer. Since 2021, we’ve hosted over 800 AMAs, building a vibrant community. Leverage our platform to boost your project’s visibility.</p>
-                            <h3>Procedure to Book:</h3>
-                            <p>Click the Order Now button below.</p>
-                            <a href="#contact" class="order-button">Order Now</a>
-                            <h3>For Further Assistance:</h3>
-                            <p>Reach out on <a href="https://t.me/kscoder" target="_blank" rel="noopener noreferrer">Telegram</a>.</p>
+                            <h3 class="text-lg font-bold mt-3 mb-1 text-[var(--accent)]">Why Choose Crypto World Club?</h3>
+                            <p class="text-sm text-[var(--text-secondary)]">Crypto World Club is verified by Binance and a top Binance Live streamer. Since 2021, we’ve hosted over 800 AMAs, building a vibrant community. Leverage our platform to boost your project’s visibility.</p>
+                            <h3 class="text-lg font-bold mt-3 mb-1 text-[var(--accent)]">Procedure to Book:</h3>
+                            <p class="text-sm text-[var(--text-secondary)]">Click the Order Now button below.</p>
+                            <a href="#contact" class="order-button mt-4 inline-block px-4 py-2 text-sm font-semibold rounded-full bg-[var(--accent)] text-white hover:bg-red-700 transition duration-300">Order Now</a>
+                            <h3 class="text-lg font-bold mt-3 mb-1 text-[var(--accent)]">For Further Assistance:</h3>
+                            <p class="text-xs mt-1 text-red-400">Reach out on <a href="https://t.me/Kavin_World" target="_blank" rel="noopener noreferrer" class="hover:underline">Telegram</a>.</p>
                         </div>
                     </div>
-                    <div class="service-item">
-                        Binance Live AMA
-                        <div class="service-details">
-                            <h3>Binance Live AMA with Crypto Elephant</h3>
-                            <p><strong>Cost:</strong> $500</p>
-                            <h3>What is a Binance Live AMA?</h3>
-                            <p>A Binance Live AMA is a 1-hour live video session on Binance Live, hosted by our top-tier team. Benefits include:</p>
-                            <ul>
+
+                    <!-- Service Item: Binance Live AMA -->
+                    <div class="service-item bg-gray-900 rounded-xl shadow-lg border border-[var(--accent)]/50 overflow-hidden cursor-pointer service-card-glow service-item-hover-gradient">
+                         <div class="absolute top-0 right-0 mt-3 mr-3 px-3 py-1 bg-[var(--highlight-yellow)] text-gray-900 text-xs font-bold rounded-full shadow-md transform rotate-3 z-10">
+                            MAX EXPOSURE
+                        </div>
+                        <!-- Card Header -->
+                        <div class="p-6 text-xl font-semibold flex flex-col items-start text-[var(--accent)]">
+                            <span class="flex items-center text-white text-2xl mb-1"><span class="mr-3 text-2xl">🔶</span>Binance Live AMA</span>
+                            <span class="text-sm font-light text-[var(--text-secondary)]">Access the largest exchange audience.</span>
+                            <strong class="text-lg mt-2 text-[var(--highlight-green)]">Cost: $500</strong>
+                            <svg class="w-5 h-5 transition-transform duration-300 transform chevron flex-shrink-0 ml-auto -mt-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </div>
+                        
+                        <!-- Service Details (Content preserved exactly) -->
+                        <div class="service-details bg-gray-900/70 border-t border-[var(--accent)]/50 p-4">
+                            <h3 class="text-lg font-bold mb-2 text-[var(--accent)]">Binance Live AMA with Crypto World Club</h3>
+                            <p class="mb-2 text-sm text-[var(--text-primary)]"><strong>Cost:</strong> $500</p>
+                            <h3 class="text-lg font-bold mt-3 mb-1 text-[var(--accent)]">What is a Binance Live AMA?</h3>
+                            <p class="text-sm text-[var(--text-secondary)]">A Binance Live AMA is a 1-hour live video session on Binance Live, hosted by our top-tier team. Benefits include:</p>
+                            <ul class="list-disc list-inside text-sm mt-2 space-y-1 text-[var(--text-secondary)] ml-4">
                                 <li>Tap into Binance’s massive audience.</li>
                                 <li>Showcase your project with high credibility.</li>
                                 <li>Engage with real-time video Q&A.</li>
                                 <li>Boost visibility in the crypto ecosystem.</li>
                             </ul>
-                            <h3>Why Choose Crypto Elephant?</h3>
-                            <p>Crypto Elephant is verified by Binance and a top Binance Live streamer. Since 2021, we’ve hosted over 800 AMAs, building a vibrant community. Leverage our platform to boost your project’s visibility.</p>
-                            <h3>Procedure to Book:</h3>
-                            <p>Click the Order Now button below.</p>
-                            <a href="#contact" class="order-button">Order Now</a>
-                            <h3>For Further Assistance:</h3>
-                            <p>Reach out on <a href="https://t.me/kscoder" target="_blank" rel="noopener noreferrer">Telegram</a>.</p>
+                            <h3 class="text-lg font-bold mt-3 mb-1 text-[var(--accent)]">Why Choose Crypto World Club?</h3>
+                            <p class="text-sm text-[var(--text-secondary)]">Crypto World Club is verified by Binance and a top Binance Live streamer. Since 2021, we’ve hosted over 800 AMAs, building a vibrant community. Leverage our platform to boost your project’s visibility.</p>
+                            <h3 class="text-lg font-bold mt-3 mb-1 text-[var(--accent)]">Procedure to Book:</h3>
+                            <p class="text-sm text-[var(--text-secondary)]">Click the Order Now button below.</p>
+                            <a href="#contact" class="order-button mt-4 inline-block px-4 py-2 text-sm font-semibold rounded-full bg-[var(--accent)] text-white hover:bg-red-700 transition duration-300">Order Now</a>
+                            <h3 class="text-lg font-bold mt-3 mb-1 text-[var(--accent)]">For Further Assistance:</h3>
+                            <p class="text-xs mt-1 text-red-400">Reach out on <a href="https://t.me/Kavin_World" target="_blank" rel="noopener noreferrer" class="hover:underline">Telegram</a>.</p>
                         </div>
                     </div>
-                    <div class="service-item">
-                        Giveaway & Airdrop
-                        <div class="service-details">
-                            <h3>Giveaway & Airdrop with Crypto Elephant</h3>
-                            <p><strong>Cost:</strong> $200</p>
-                            <h3>What is a Giveaway & Airdrop?</h3>
-                            <p>A Giveaway & Airdrop campaign distributes tokens or rewards to attract and engage users. Benefits include:</p>
-                            <ul>
+
+                    <!-- Service Item: Giveaway & Airdrop -->
+                    <div class="service-item bg-gray-900 rounded-xl shadow-lg border border-[var(--accent)]/50 overflow-hidden cursor-pointer service-card-glow service-item-hover-gradient">
+                        <!-- Card Header -->
+                        <div class="p-6 text-xl font-semibold flex flex-col items-start text-[var(--accent)]">
+                            <span class="flex items-center text-white text-2xl mb-1"><span class="mr-3 text-2xl">🎁</span>Giveaway & Airdrop</span>
+                            <span class="text-sm font-light text-[var(--text-secondary)]">Rapid user acquisition.</span>
+                            <strong class="text-lg mt-2 text-[var(--highlight-green)]">Cost: $200</strong>
+                            <svg class="w-5 h-5 transition-transform duration-300 transform chevron flex-shrink-0 ml-auto -mt-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </div>
+
+                        <!-- Service Details (Content preserved exactly) -->
+                        <div class="service-details bg-gray-900/70 border-t border-[var(--accent)]/50 p-4">
+                            <h3 class="text-lg font-bold mb-2 text-[var(--accent)]">Giveaway & Airdrop with Crypto World Club</h3>
+                            <p class="mb-2 text-sm text-[var(--text-primary)]"><strong>Cost:</strong> $200</p>
+                            <h3 class="text-lg font-bold mt-3 mb-1 text-[var(--accent)]">What is a Giveaway & Airdrop?</h3>
+                            <p class="text-sm text-[var(--text-secondary)]">A Giveaway & Airdrop campaign distributes tokens or rewards to attract and engage users. Benefits include:</p>
+                            <ul class="list-disc list-inside text-sm mt-2 space-y-1 text-[var(--text-secondary)] ml-4">
                                 <li>Increase project awareness rapidly.</li>
                                 <li>Attract new users and community members.</li>
                                 <li>Boost social media engagement.</li>
                                 <li>Create buzz around your token launch.</li>
                             </ul>
-                            <h3>Why Choose Crypto Elephant?</h3>
-                            <p>Crypto Elephant is verified by Binance and a top Binance Live streamer. Our engaged community, built since 2021, ensures your campaign reaches the right audience. Maximize your project’s impact with us.</p>
-                            <h3>Procedure to Book:</h3>
-                            <p>Click the Order Now button below.</p>
-                            <a href="#contact" class="order-button">Order Now</a>
-                            <h3>For Further Assistance:</h3>
-                            <p>Reach out on <a href="https://t.me/kscoder" target="_blank" rel="noopener noreferrer">Telegram</a>.</p>
+                            <h3 class="text-lg font-bold mt-3 mb-1 text-[var(--accent)]">Why Choose Crypto World Club?</h3>
+                            <p class="text-sm text-[var(--text-secondary)]">Crypto World Club is verified by Binance and a top Binance Live streamer. Our engaged community, built since 2021, ensures your campaign reaches the right audience. Maximize your project’s impact with us.</p>
+                            <h3 class="text-lg font-bold mt-3 mb-1 text-[var(--accent)]">Procedure to Book:</h3>
+                            <p class="text-sm text-[var(--text-secondary)]">Click the Order Now button below.</p>
+                            <a href="#contact" class="order-button mt-4 inline-block px-4 py-2 text-sm font-semibold rounded-full bg-[var(--accent)] text-white hover:bg-red-700 transition duration-300">Order Now</a>
+                            <h3 class="text-lg font-bold mt-3 mb-1 text-[var(--accent)]">For Further Assistance:</h3>
+                            <p class="text-xs mt-1 text-red-400">Reach out on <a href="https://t.me/Kavin_World" target="_blank" rel="noopener noreferrer" class="hover:underline">Telegram</a>.</p>
                         </div>
                     </div>
-                    <div class="service-item">
-                        Partnership Service
-                        <div class="service-details">
-                            <h3>Partnership Service with Crypto Elephant</h3>
-                            <p><strong>Cost:</strong> $1200</p>
-                            <h3>What is a Partnership Service?</h3>
-                            <p>A Partnership Service involves strategic collaboration with Crypto Elephant to promote your project. Benefits include:</p>
-                            <ul>
+                    
+                    <!-- Service Item: Partnership Service -->
+                    <div class="service-item bg-gray-900 rounded-xl shadow-lg border border-[var(--accent)]/50 overflow-hidden cursor-pointer service-card-glow service-item-hover-gradient">
+                         <div class="absolute top-0 right-0 mt-3 mr-3 px-3 py-1 bg-red-700 text-white text-xs font-bold rounded-full shadow-md transform rotate-3 z-10">
+                            PREMIUM
+                        </div>
+                        <!-- Card Header -->
+                        <div class="p-6 text-xl font-semibold flex flex-col items-start text-[var(--accent)]">
+                            <span class="flex items-center text-white text-2xl mb-1"><span class="mr-3 text-2xl">🤝</span>Partnership Service</span>
+                            <span class="text-sm font-light text-[var(--text-secondary)]">Strategic, long-term growth.</span>
+                            <strong class="text-lg mt-2 text-[var(--highlight-green)]">Cost: $1,200</strong>
+                            <svg class="w-5 h-5 transition-transform duration-300 transform chevron flex-shrink-0 ml-auto -mt-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </div>
+
+                        <!-- Service Details (Content preserved exactly) -->
+                        <div class="service-details bg-gray-900/70 border-t border-[var(--accent)]/50 p-4">
+                            <h3 class="text-lg font-bold mb-2 text-[var(--accent)]">Partnership Service with Crypto World Club</h3>
+                            <p class="mb-2 text-sm text-[var(--text-primary)]"><strong>Cost:</strong> $1200</p>
+                            <h3 class="text-lg font-bold mt-3 mb-1 text-[var(--accent)]">What is a Partnership Service?</h3>
+                            <p class="text-sm text-[var(--text-secondary)]">A Partnership Service involves strategic collaboration with Crypto World Club to promote your project. Benefits include:</p>
+                            <ul class="list-disc list-inside text-sm mt-2 space-y-1 text-[var(--text-secondary)] ml-4">
                                 <li>Access our established community and network.</li>
                                 <li>Co-promote through our social channels.</li>
                                 <li>Enhance credibility with our Binance verification.</li>
                                 <li>Tailored campaigns to meet your goals.</li>
                             </ul>
-                            <h3>Why Choose Crypto Elephant?</h3>
-                            <p>Crypto Elephant is verified by Binance and a top Binance Live streamer. Our experience since 2021 and strong community make us the ideal partner for your project’s growth.</p>
-                            <h3>Procedure to Book:</h3>
-                            <p>Click the Order Now button below.</p>
-                            <a href="#contact" class="order-button">Order Now</a>
-                            <h3>For Further Assistance:</h3>
-                            <p>Reach out on <a href="https://t.me/kscoder" target="_blank" rel="noopener noreferrer">Telegram</a>.</p>
+                            <h3 class="text-lg font-bold mt-3 mb-1 text-[var(--accent)]">Why Choose Crypto World Club?</h3>
+                            <p class="text-sm text-[var(--text-secondary)]">Crypto World Club is verified by Binance and a top Binance Live streamer. Our experience since 2021 and strong community make us the ideal partner for your project’s growth.</p>
+                            <h3 class="text-lg font-bold mt-3 mb-1 text-[var(--accent)]">Procedure to Book:</h3>
+                            <p class="text-sm text-[var(--text-secondary)]">Click the Order Now button below.</p>
+                            <a href="#contact" class="order-button mt-4 inline-block px-4 py-2 text-sm font-semibold rounded-full bg-[var(--accent)] text-white hover:bg-red-700 transition duration-300">Order Now</a>
+                            <h3 class="text-lg font-bold mt-3 mb-1 text-[var(--accent)]">For Further Assistance:</h3>
+                            <p class="text-xs mt-1 text-red-400">Reach out on <a href="https://t.me/Kavin_World" target="_blank" rel="noopener noreferrer" class="hover:underline">Telegram</a>.</p>
                         </div>
                     </div>
-                    <div class="service-item">
-                        Pin-Post
-                        <div class="service-details">
-                            <h3>Telegram + Twitter Pin-Post with Crypto Elephant</h3>
-                            <p><strong>Cost:</strong> $150</p>
-                            <h3>What is a Pin-Post?</h3>
-                            <p>A Pin-Post is a promotional post pinned on our Telegram and Twitter channels for maximum visibility. Benefits include:</p>
-                            <ul>
+                    
+                    <!-- Service Item: Pin-Post -->
+                    <div class="service-item bg-gray-900 rounded-xl shadow-lg border border-[var(--accent)]/50 overflow-hidden cursor-pointer service-card-glow service-item-hover-gradient">
+                        <!-- Card Header -->
+                        <div class="p-6 text-xl font-semibold flex flex-col items-start text-[var(--accent)]">
+                            <span class="flex items-center text-white text-2xl mb-1"><span class="mr-3 text-2xl">📌</span>Pin-Post</span>
+                            <span class="text-sm font-light text-[var(--text-secondary)]">High-visibility pinned promotion.</span>
+                            <strong class="text-lg mt-2 text-[var(--highlight-green)]">Cost: $150</strong>
+                            <svg class="w-5 h-5 transition-transform duration-300 transform chevron flex-shrink-0 ml-auto -mt-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </div>
+
+                        <!-- Service Details (Content preserved exactly) -->
+                        <div class="service-details bg-gray-900/70 border-t border-[var(--accent)]/50 p-4">
+                            <h3 class="text-lg font-bold mb-2 text-[var(--accent)]">Telegram + Twitter Pin-Post with Crypto World Club</h3>
+                            <p class="mb-2 text-sm text-[var(--text-primary)]"><strong>Cost:</strong> $150</p>
+                            <h3 class="text-lg font-bold mt-3 mb-1 text-[var(--accent)]">What is a Pin-Post?</h3>
+                            <p class="text-sm text-[var(--text-secondary)]">A Pin-Post is a promotional post pinned on our Telegram and Twitter channels for maximum visibility. Benefits include:</p>
+                            <ul class="list-disc list-inside text-sm mt-2 space-y-1 text-[var(--text-secondary)] ml-4">
                                 <li>Ensure your project stays at the top of our channels.</li>
                                 <li>Drive traffic to your project’s website or socials.</li>
                                 <li>Reach our engaged crypto audience.</li>
                                 <li>Amplify your message with our trusted platforms.</li>
                             </ul>
-                            <h3>Why Choose Crypto Elephant?</h3>
-                            <p>Crypto Elephant is verified by Binance and a top Binance Live streamer. Our active Telegram and Twitter communities, built since 2021, guarantee your post gets noticed.</p>
-                            <h3>Procedure to Book:</h3>
-                            <p>Click the Order Now button below.</p>
-                            <a href="#contact" class="order-button">Order Now</a>
-                            <h3>For Further Assistance:</h3>
-                            <p>Reach out on <a href="https://t.me/kscoder" target="_blank" rel="noopener noreferrer">Telegram</a>.</p>
+                            <h3 class="text-lg font-bold mt-3 mb-1 text-[var(--accent)]">Why Choose Crypto World Club?</h3>
+                            <p class="text-sm text-[var(--text-secondary)]">Crypto World Club is verified by Binance and a top Binance Live streamer. Our active Telegram and Twitter communities, built since 2021, guarantee your post gets noticed.</p>
+                            <h3 class="text-lg font-bold mt-3 mb-1 text-[var(--accent)]">Procedure to Book:</h3>
+                            <p class="text-sm text-[var(--text-secondary)]">Click the Order Now button below.</p>
+                            <a href="#contact" class="order-button mt-4 inline-block px-4 py-2 text-sm font-semibold rounded-full bg-[var(--accent)] text-white hover:bg-red-700 transition duration-300">Order Now</a>
+                            <h3 class="text-lg font-bold mt-3 mb-1 text-[var(--accent)]">For Further Assistance:</h3>
+                            <p class="text-xs mt-1 text-red-400">Reach out on <a href="https://t.me/Kavin_World" target="_blank" rel="noopener noreferrer" class="hover:underline">Telegram</a>.</p>
+                        </div>
+                    </div>
+
+                    <!-- Service Item: CMC-Post -->
+                    <div class="service-item bg-gray-900 rounded-xl shadow-lg border border-[var(--accent)]/50 overflow-hidden cursor-pointer service-card-glow service-item-hover-gradient">
+                        <!-- Card Header -->
+                        <div class="p-6 text-xl font-semibold flex flex-col items-start text-[var(--accent)]">
+                            <span class="flex items-center text-white text-2xl mb-1"><span class="mr-3 text-2xl">✍️</span>CMC-Post</span>
+                            <span class="text-sm font-light text-[var(--text-secondary)]">Premium article/blog creation.</span>
+                            <strong class="text-lg mt-2 text-[var(--highlight-green)]">Cost: $250</strong>
+                            <svg class="w-5 h-5 transition-transform duration-300 transform chevron flex-shrink-0 ml-auto -mt-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </div>
+
+                        <!-- Service Details (Content preserved exactly) -->
+                        <div class="service-details bg-gray-900/70 border-t border-[var(--accent)]/50 p-4">
+                            <h3 class="text-lg font-bold mb-2 text-[var(--accent)]">Premium Article/Blog Post Creation</h3>
+                            <p class="mb-2 text-sm text-[var(--text-primary)]"><strong>Cost:</strong> $250</p>
+                            <h3 class="text-lg font-bold mt-3 mb-1 text-[var(--accent)]">What is a CMS-Post Service?</h3>
+                            <p class="text-sm text-[var(--text-secondary)]">This service provides a professionally written article or blog post, optimized for engagement and SEO, ready to be published on your platform (Content Management System). Key features include:</p>
+                            <ul class="list-disc list-inside text-sm mt-2 space-y-1 text-[var(--text-secondary)] ml-4">
+                                <li>Original, high-quality content tailored to your target audience.</li>
+                                <li>Keyword optimization to improve search engine visibility.</li>
+                                <li>Professional editing and proofreading.</li>
+                                <li>Content submission ready for platforms like WordPress, Medium, etc.</li>
+                            </ul>
+                            <h3 class="text-lg font-bold mt-3 mb-1 text-[var(--accent)]">Why Choose Our Content Service?</h3>
+                            <p class="text-sm text-[var(--text-secondary)]">We specialize in creating compelling content for the crypto and blockchain space. Our writers are experts in communicating complex topics clearly, ensuring your message resonates with your community and attracts new users. Leverage our expertise to build authority and trust.</p>
+                            <h3 class="text-lg font-bold mt-3 mb-1 text-[var(--accent)]">Procedure to Book:</h3>
+                            <p class="text-sm text-[var(--text-secondary)]">Click the Order Now button below to submit your topic and requirements.</p>
+                            <a href="#contact" class="order-button mt-4 inline-block px-4 py-2 text-sm font-semibold rounded-full bg-[var(--accent)] text-white hover:bg-red-700 transition duration-300">Order Now</a>
+                            <h3 class="text-lg font-bold mt-3 mb-1 text-[var(--accent)]">For Further Assistance:</h3>
+                            <p class="text-xs mt-1 text-red-400">Reach out to us on <a href="https://t.me/Kavin_World" target="_blank" rel="noopener noreferrer" class="hover:underline">Telegram</a> for custom content packages or questions.</p>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
-        <section id="contact" class="content">
-            <div class="section contact-section">
-                <h2>Contact</h2>
-                <div class="owner-photo">
-                    <img src="https://cryptoelephant.netlify.app/owner.jpg" alt="Crypto Elephant Owner">
+
+        <!-- Contact Section -->
+        <section id="contact" class="mb-12 pt-6">
+            <div class="p-6 sm:p-10 rounded-xl bg-[var(--bg-secondary)] shadow-xl text-center border border-[var(--accent)]/50">
+                <h2 class="text-3xl font-bold mb-6 text-[var(--accent)]">Contact DAYTON</h2>
+                <div class="w-32 h-32 mx-auto mb-6 rounded-full overflow-hidden border-4 border-[var(--accent)] shadow-lg glow-shadow">
+                    <img src="assets/imges/profile.png" alt="Crypto World Club Owner" class="w-full h-full object-cover">
                 </div>
-                <p>Reach out DAYTON owner for inquiries or to book our services.</p>
-                <div class="contact-links">
-                    <a href="https://t.me/kscoder" target="_blank" rel="noopener noreferrer">Telegram Chat</a>
-                    <a href="https://x.com/Cryptoelephanta" target="_blank" rel="noopener noreferrer">Twitter Chat</a>
+                <p class="mb-6 text-[var(--text-primary)]">Reach out to DAYTON, the owner, for all inquiries or to book our services.</p>
+                <div class="flex flex-col sm:flex-row justify-center gap-4">
+                    <a href="https://t.me/Kavin_World" target="_blank" rel="noopener noreferrer" class="contact-link px-6 py-3 font-semibold rounded-full bg-[var(--accent)] text-white hover:bg-red-700 transition duration-300 shadow-md">
+                        Telegram Chat
+                    </a>
+                    <a href="https://x.com/Cryptoelephanta" target="_blank" rel="noopener noreferrer" class="contact-link px-6 py-3 font-semibold rounded-full bg-gray-900 text-white border border-[var(--accent)] hover:bg-gray-700 transition duration-300 shadow-md">
+                        Twitter Chat
+                    </a>
                 </div>
             </div>
         </section>
     </main>
-    <footer class="footer">
-        <p>© 2025 Crypto Elephant</p>
-        <div class="footer-social" id="social-media">
-            <a href="https://t.me/Cryptoelephant_Ama" target="_blank" rel="noopener noreferrer">
-                <img src="https://cryptoelephant.netlify.app/Tg%20chat.png" alt="Telegram Logo" class="social-logo"> Telegram Group
+    
+    <!-- Footer -->
+    <footer class="bg-[var(--bg-secondary)] py-8 text-center border-t border-[var(--accent)]/50">
+        <p class="text-[var(--text-secondary)] mb-4">© 2025 Crypto World Club</p>
+        <div class="flex justify-center flex-wrap gap-6 px-4" id="social-media">
+            <a href="https://t.me/CryptoWorldClubAMA" target="_blank" rel="noopener noreferrer" class="flex items-center text-[var(--text-primary)] hover:text-[var(--accent)] transition duration-300">
+                <img src="assets/imges/tg_chat.png" alt="Telegram Group Logo" class="w-5 h-5 mr-2"> Telegram Group
             </a>
-            <a href="https://t.me/Cryptoelephant_News" target="_blank" rel="noopener noreferrer">
-                <img src="https://cryptoelephant.netlify.app/Tg%20channel.png" alt="Telegram Logo" class="social-logo"> Telegram Channel
+            <a href="https://t.me/CryptoWorldClub_News" target="_blank" rel="noopener noreferrer" class="flex items-center text-[var(--text-primary)] hover:text-[var(--accent)] transition duration-300">
+                <img src="assets/imges/tg_group.png" alt="Telegram Channel Logo" class="w-5 h-5 mr-2"> Telegram Channel
             </a>
-            <a href="https://x.com/Cryptoelephanta" target="_blank" rel="noopener noreferrer">
-                <img src="https://cryptoelephant.netlify.app/X%20logo.png" alt="X Logo" class="social-logo"> Twitter
+            <a href="https://x.com/CRYPTO_WORLD_CB" target="_blank" rel="noopener noreferrer" class="flex items-center text-[var(--text-primary)] hover:text-[var(--accent)] transition duration-300">
+                <img src="assets/imges/x.png" alt="X Logo" class="w-5 h-5 mr-2"> Twitter
             </a>
-            <a href="https://www.binance.com/en/live/u/32765169" target="_blank" rel="noopener noreferrer">
-                <img src="https://cryptoelephant.netlify.app/Binance.png" alt="Binance Logo" class="social-logo"> Binance Live
+            <a href="https://www.binance.com/en/live/u/24414050" target="_blank" rel="noopener noreferrer" class="flex items-center text-[var(--text-primary)] hover:text-[var(--accent)] transition duration-300">
+                <img src="assets/imges/binance.png" alt="Binance Logo" class="w-5 h-5 mr-2"> Binance Live
             </a>
         </div>
     </footer>
+
     <script>
         // Smooth scrolling for navigation links and order buttons
-        document.querySelectorAll('.nav a, .order-button').forEach(anchor => {
+        document.querySelectorAll('.nav-link, .order-button').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const targetId = this.getAttribute('href').substring(1);
-                const targetElement = document.getElementById(targetId);
-                if (targetElement) {
-                    targetElement.scrollIntoView({ behavior: 'smooth' });
+                // Check if the link is a hashtag link (internal)
+                if (this.getAttribute('href').startsWith('#')) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href').substring(1);
+                    const targetElement = document.getElementById(targetId);
+                    if (targetElement) {
+                        targetElement.scrollIntoView({ behavior: 'smooth' });
+                    }
                 }
+                // If it's an external link (like Telegram), let it proceed naturally
             });
         });
 
-        // Toggle service details on click
+        // Toggle service details (Accordion) on click - FIXED FOR SMOOTH TRANSITION
         document.querySelectorAll('.service-item').forEach(item => {
             item.addEventListener('click', function (e) {
-                e.stopPropagation(); // Prevent event bubbling
+                // Prevent closing if a link inside the details is clicked
+                if (e.target.closest('a') || e.target.closest('button')) return;
+                
                 const details = this.querySelector('.service-details');
+                const chevron = this.querySelector('.chevron'); // Select the chevron
                 const isActive = details.classList.contains('active');
 
-                // Close all other details
-                document.querySelectorAll('.service-details').forEach(detail => {
-                    detail.classList.remove('active');
-                    detail.style.maxHeight = '0';
+                // Close all other details and reset chevrons
+                document.querySelectorAll('.service-item').forEach(otherItem => {
+                    const otherDetails = otherItem.querySelector('.service-details');
+                    const otherChevron = otherItem.querySelector('.chevron');
+                    if (otherItem !== this && otherDetails.classList.contains('active')) {
+                        // Use timeout to ensure the transition runs from current height
+                        otherDetails.style.maxHeight = otherDetails.scrollHeight + "px";
+                        setTimeout(() => {
+                            otherDetails.style.maxHeight = '0';
+                            otherDetails.classList.remove('active');
+                        }, 10);
+                        
+                        if (otherChevron) {
+                            otherChevron.classList.remove('rotate-180');
+                        }
+                    }
                 });
 
                 // Toggle the clicked item's details
                 if (!isActive) {
-                    details.classList.add('active');
-                    details.style.maxHeight = details.scrollHeight + 'px';
+                    details.classList.add('active'); 
+                    // Set maxHeight to actual scrollHeight for perfect opening transition
+                    details.style.maxHeight = details.scrollHeight + "px"; 
+                    if (chevron) {
+                        chevron.classList.add('rotate-180'); // Rotate down
+                    }
+                } else {
+                    // Close: To trigger the CSS transition correctly, set the inline max-height to its current height 
+                    // before setting it to '0'. This forces the transition start.
+                    details.style.maxHeight = details.scrollHeight + "px";
+                    
+                    // Use a small timeout to force browser rendering cycle for the transition to start from full height
+                    setTimeout(() => {
+                        details.style.maxHeight = '0'; 
+                        details.classList.remove('active');
+                    }, 10);
+
+                    if (chevron) {
+                        chevron.classList.remove('rotate-180'); // Rotate up (back to default)
+                    }
                 }
             });
         });
@@ -700,38 +588,51 @@
             stats.forEach(stat => {
                 const target = parseInt(stat.getAttribute('data-target'));
                 let count = 0;
-                const duration = 2000; // 2 seconds
-                const increment = target / (duration / 16); // 60fps
+                const duration = 2000;
+                const increment = target / (duration / 16);
+
+                // Use the original logic to handle the '+' sign
+                const targetsWithPlus = [999, 300000];
+                const shouldAddPlus = targetsWithPlus.includes(target);
+                const plusSign = shouldAddPlus ? '+' : '';
 
                 function updateCount() {
                     count += increment;
+
                     if (count >= target) {
-                        stat.textContent = target + (target === 250000 ? '+' : target === 500 ? '+' : '');
+                        stat.textContent = target.toLocaleString() + plusSign; // Use toLocaleString for number formatting
                     } else {
-                        stat.textContent = Math.ceil(count) + (target === 250000 ? '+' : target === 500 ? '+' : '');
+                        stat.textContent = Math.ceil(count).toLocaleString() + plusSign;
                         requestAnimationFrame(updateCount);
                     }
                 }
-
+                
+                // Reset count to 0 before starting animation
+                stat.textContent = '0' + plusSign;
                 updateCount();
             });
         }
 
-        // Intersection Observer for stats animation
+        // Intersection Observer for stats animation (runs when the #about section becomes visible)
         const aboutSection = document.querySelector('#about');
         const observer = new IntersectionObserver((entries) => {
-            if (entries[0].isIntersecting) {
-                animateStats();
-                observer.disconnect(); // Run only once
-            }
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateStats();
+                    observer.disconnect(); // Run only once
+                }
+            });
         }, { threshold: 0.2 });
 
-        // Fallback: Check if section is visible on load
-        if (aboutSection.getBoundingClientRect().top < window.innerHeight) {
+        // Start observing when the page loads
+        if (aboutSection) {
+            observer.observe(aboutSection);
+        }
+
+        // Initial check for immediate animation if #about is already visible
+        if (aboutSection && aboutSection.getBoundingClientRect().top < window.innerHeight) {
             animateStats();
             observer.disconnect();
-        } else {
-            observer.observe(aboutSection);
         }
     </script>
 </body>
