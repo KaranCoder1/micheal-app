@@ -13,20 +13,28 @@
         :root {
             /* Dark Mode Variables - Default */
             --bg-primary: #000000; /* Pure Black */
-            --bg-secondary: #750f0f; /* Very Dark Red/Black */
+            --bg-secondary: #a31313; /* Very Dark Red/Black */
             --accent: #ff0000; /* Bright Red */
             --text-primary: #f3f4f6; /* Light Gray */
             --text-secondary: #9ca3af; /* Gray */
             --highlight-green: #10b981; /* Tailwind Emerald 500 */
             --highlight-yellow: #f59e0b; /* Tailwind Amber 500 */
+            --card-bg: #1f2937; /* Deep Gray for cards in dark mode */
+            --tag-bg: #374151; /* Dark Gray for tags */
+            --tag-text: #fca5a5; /* Reddish text for tags */
         }
 
         [data-theme="light"] {
             --bg-primary: #ffffff;
-            --bg-secondary: #f3f4f6;
-            --accent: #dc2626; /* Tailwind Red 600 */
-            --text-primary: #1f2937;
-            --text-secondary: #4b5563;
+            --bg-secondary: #f9fafb; /* Lightest Gray for sections/nav */
+            --accent: #ef4444; /* Brighter Red for light mode (Tailwind Red 500) */
+            --text-primary: #111827; /* Dark text (Tailwind Gray 900) */
+            --text-secondary: #4b5563; /* Medium dark text */
+            --card-bg: #ffffff; /* Pure white for cards in light mode */
+            --highlight-green: #059669; /* Darker green for contrast */
+            --highlight-yellow: #d97706; /* Darker yellow for contrast */
+            --tag-bg: #fee2e2; /* Soft Red background for tags */
+            --tag-text: #991b1b; /* Dark Red text for tags */
         }
 
         body {
@@ -36,8 +44,93 @@
             transition: background-color 0.5s, color 0.5s;
         }
 
+        /* --- DARK MODE ONLY STYLES --- */
+
+        /* Continuous Header Glow Animation */
+        @keyframes subtle-pulse {
+            0% { box-shadow: 0 0 5px rgba(255, 0, 0, 0.4); }
+            50% { box-shadow: 0 0 10px rgba(255, 0, 0, 0.8), 0 0 15px rgba(255, 0, 0, 0.3); }
+            100% { box-shadow: 0 0 5px rgba(255, 0, 0, 0.4); }
+        }
+
+        .header-live-glow {
+            animation: subtle-pulse 4s infinite ease-in-out;
+        }
+
+        /* Custom glow effect using CSS box-shadow for a more controlled, modern look */
+        .glow-shadow {
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.6); 
+        }
+
+        /* Pulse for Home Section */
+        .home-section-pulse {
+            animation: subtle-pulse 6s infinite ease-in-out;
+        }
+
+        /* Service Card Hover Effect (Dark Mode) */
+        .service-card-glow {
+            transition: all 0.3s ease;
+        }
+        .service-card-glow:hover {
+            box-shadow: 0 0 18px rgba(255, 0, 0, 1), 0 0 8px rgba(255, 0, 0, 0.7) inset;
+            transform: translateY(-5px) scale(1.02);
+        }
+
+        /* Icon styling (Dark Mode) */
+        .service-icon {
+            color: var(--accent);
+            text-shadow: 0 0 5px rgba(255, 0, 0, 0.8);
+        }
+        
+        /* Home Tag Styles (Dark Mode) */
+        [data-theme="dark"] .home-tag-item {
+            background-color: var(--tag-bg);
+            color: var(--tag-text);
+        }
+
+        /* --- LIGHT MODE OVERRIDES --- */
+        [data-theme="light"] .header-live-glow,
+        [data-theme="light"] .glow-shadow,
+        [data-theme="light"] .home-section-pulse {
+            animation: none;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Clear, professional shadow */
+        }
+        
+        [data-theme="light"] .stat-item,
+        [data-theme="light"] .service-item {
+            background-color: var(--card-bg) !important;
+            border-color: #e5e7eb !important; /* Lighter border */
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08); /* Better definition */
+        }
+
+        [data-theme="light"] .service-card-glow:hover {
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.1), 0 0 0 3px var(--accent) !important; /* Strong red ring on hover */
+            transform: translateY(-2px) scale(1.01);
+        }
+        
+        [data-theme="light"] .service-details {
+            background-color: var(--bg-secondary) !important; /* Lighter background for details */
+            border-color: #e5e7eb !important;
+        }
+
+        [data-theme="light"] .service-item-hover-gradient:hover::after {
+             background: linear-gradient(180deg, rgba(239, 68, 68, 0.1) 0%, rgba(239, 68, 68, 0.0) 100%);
+        }
+        
+        [data-theme="light"] .service-icon {
+            color: var(--accent);
+            text-shadow: none;
+        }
+        
+        /* Home Tag Styles (Light Mode) */
+        [data-theme="light"] .home-tag-item {
+            background-color: var(--tag-bg);
+            color: var(--tag-text);
+        }
+        
+        /* --- GENERAL STYLES --- */
+
         /* Styling for the Service Details Accordion */
-        /* max-height is now controlled by JavaScript via inline styles for perfect height calculation */
         .service-details {
             max-height: 0; /* Start hidden */
             opacity: 0;
@@ -58,18 +151,6 @@
             z-index: 50;
         }
 
-        /* Custom glow effect using CSS box-shadow for a more controlled, modern look */
-        .glow-shadow {
-            /* Updated to use bright red from --accent */
-            box-shadow: 0 0 10px rgba(255, 0, 0, 0.6); 
-        }
-
-        .service-card-glow:hover {
-            /* Updated to use bright red from --accent */
-            box-shadow: 0 0 18px rgba(255, 0, 0, 1), 0 0 8px rgba(255, 0, 0, 0.7) inset;
-            transform: translateY(-5px) scale(1.02); /* Added stronger lift effect */
-        }
-
         /* Custom gradient overlay on service item hover */
         .service-item-hover-gradient:hover::after {
             content: '';
@@ -78,7 +159,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            /* Updated to use bright red from --accent */
+            /* Default dark mode gradient */
             background: linear-gradient(180deg, rgba(255, 0, 0, 0.15) 0%, rgba(255, 0, 0, 0.0) 100%);
             z-index: 0;
             border-radius: 0.75rem; /* Match rounded-xl */
@@ -86,25 +167,35 @@
         }
 
         .service-item {
-            position: relative; /* Needed for the ::after pseudo-element and badge */
+            position: relative;
+        }
+
+        /* Order Button Interactive Hover */
+        .order-button {
+            transition: all 0.3s ease;
+        }
+
+        .order-button:hover {
+            box-shadow: 0 4px 15px rgba(255, 0, 0, 0.6);
+            transform: translateY(-2px);
         }
     </style>
 </head>
 <body data-theme="dark">
     <div class="header-sticky">
         <!-- Header -->
-        <header class="flex items-center justify-between p-4 shadow-xl bg-[var(--bg-secondary)] border-b border-[var(--accent)]">
+        <header class="flex items-center justify-between p-4 shadow-xl bg-[var(--bg-secondary)] border-b border-[var(--accent)] header-live-glow">
             <div class="flex items-center space-x-3">
                 <div class="w-10 h-10 rounded-full overflow-hidden border-2 border-[var(--accent)] flex-shrink-0">
                     <img src="assets/imges/icon.png" alt="Crypto World Club Logo" class="w-full h-full object-cover">
                 </div>
-                <h1 class="text-2xl sm:text-3xl font-bold text-[var(--accent)] tracking-widest uppercase">Crypto World Club</h1>
+                <h1 class="text-2xl sm:text-3xl font-bold text-[var(--accent)] tracking-widest uppercase">CWC</h1>
             </div>
-            <button class="theme-toggle px-4 py-2 text-sm font-semibold rounded-full transition duration-300 bg-[var(--accent)] text-white hover:bg-red-700 focus:outline-none focus:ring-4 focus:ring-[var(--accent)] focus:ring-opacity-50" onclick="toggleTheme()">Light Mode</button>
+            <button class="theme-toggle px-4 py-2 text-sm font-semibold rounded-full transition duration-300 bg-[var(--accent)] text-white hover:bg-red-700 focus:outline-none focus:ring-4 focus:ring-[var(--accent)] focus:ring-opacity-50 order-button" onclick="toggleTheme()">Light Mode</button>
         </header>
 
         <!-- Navigation -->
-        <nav class="flex justify-center flex-wrap gap-2 sm:gap-6 py-3 bg-[var(--bg-secondary)] border-b border-gray-900">
+        <nav class="flex justify-center flex-wrap gap-2 sm:gap-6 py-3 bg-[var(--bg-secondary)] border-b border-gray-900 header-live-glow">
             <a href="#home" class="nav-link text-sm sm:text-base font-medium px-3 py-2 rounded-lg transition duration-300 hover:bg-[var(--accent)] hover:text-white">Home</a>
             <a href="#about" class="nav-link text-sm sm:text-base font-medium px-3 py-2 rounded-lg transition duration-300 hover:bg-[var(--accent)] hover:text-white">About</a>
             <a href="#services" class="nav-link text-sm sm:text-base font-medium px-3 py-2 rounded-lg transition duration-300 hover:bg-[var(--accent)] hover:text-white">Services</a>
@@ -116,16 +207,17 @@
     <main class="container mx-auto p-4 sm:p-6">
         <!-- Home Section -->
         <section id="home" class="mb-12 pt-6">
-            <div class="p-6 sm:p-10 rounded-xl bg-[var(--bg-secondary)] shadow-xl glow-shadow border border-[var(--accent)]/50">
+            <div class="p-6 sm:p-10 rounded-xl bg-[var(--bg-secondary)] shadow-xl glow-shadow border border-[var(--accent)]/50 home-section-pulse">
                 <h2 class="text-3xl sm:text-5xl font-extrabold text-center mb-6 leading-tight text-[var(--accent)]">
                     Roar Your Brand Success with Crypto World Club
                 </h2>
                 <div class="flex flex-wrap justify-center gap-3 sm:gap-4 mb-8">
-                    <div class="px-3 py-1 text-sm rounded-full border border-[var(--accent)] text-red-400 bg-gray-900/50">AMA</div>
-                    <div class="px-3 py-1 text-sm rounded-full border border-[var(--accent)] text-red-400 bg-gray-900/50">Binance Live</div>
-                    <div class="px-3 py-1 text-sm rounded-full border border-[var(--accent)] text-red-400 bg-gray-900/50">Twitter Space</div>
-                    <div class="px-3 py-1 text-sm rounded-full border border-[var(--accent)] text-red-400 bg-gray-900/50">Airdrop</div>
-                    <div class="px-3 py-1 text-sm rounded-full border border-[var(--accent)] text-red-400 bg-gray-900/50">Giveaway</div>
+                    <!-- Updated tag styling uses CSS variables for theme switch -->
+                    <div class="home-tag-item px-3 py-1 text-sm rounded-full border border-[var(--accent)] transition hover:scale-105">AMA</div>
+                    <div class="home-tag-item px-3 py-1 text-sm rounded-full border border-[var(--accent)] transition hover:scale-105">Binance Live</div>
+                    <div class="home-tag-item px-3 py-1 text-sm rounded-full border border-[var(--accent)] transition hover:scale-105">Twitter Space</div>
+                    <div class="home-tag-item px-3 py-1 text-sm rounded-full border border-[var(--accent)] transition hover:scale-105">Airdrop</div>
+                    <div class="home-tag-item px-3 py-1 text-sm rounded-full border border-[var(--accent)] transition hover:scale-105">Giveaway</div>
                 </div>
                 <p class="text-center max-w-3xl mx-auto text-[var(--text-primary)] leading-relaxed">
                     Crypto World Club is your ultimate partner in the crypto jungle. With our powerful services, we amplify your project’s voice to reach a global audience. From engaging AMAs to viral giveaways, we deliver results that make your brand stand out. Join our trusted community and let’s roar to success together!
@@ -140,16 +232,17 @@
                 <p class="text-center mb-8 text-[var(--text-secondary)] max-w-2xl mx-auto">
                     We are a team dedicated to providing innovative crypto solutions, backed by years of expertise and a massive community. Our proven track record ensures your project thrives in the competitive crypto space.
                 </p>
+                <!-- Stats Container uses var(--card-bg) for background -->
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
-                    <div class="stat-item p-6 bg-gray-900 rounded-lg shadow-md border border-[var(--accent)]/50 transition duration-300 hover:bg-gray-900/80">
+                    <div class="stat-item p-6 rounded-lg shadow-md border border-[var(--accent)]/50 transition duration-300 hover:scale-[1.01] hover:shadow-2xl" style="background-color: var(--card-bg);">
                         <div class="stat-number text-4xl font-extrabold text-[var(--accent)] mb-2" data-target="300000">0</div>
                         <div class="stat-label text-sm uppercase tracking-wider text-[var(--text-primary)]">Social Media Followers</div>
                     </div>
-                    <div class="stat-item p-6 bg-gray-900 rounded-lg shadow-md border border-[var(--accent)]/50 transition duration-300 hover:bg-gray-900/80">
+                    <div class="stat-item p-6 rounded-lg shadow-md border border-[var(--accent)]/50 transition duration-300 hover:scale-[1.01] hover:shadow-2xl" style="background-color: var(--card-bg);">
                         <div class="stat-number text-4xl font-extrabold text-[var(--accent)] mb-2" data-target="5">0</div>
                         <div class="stat-label text-sm uppercase tracking-wider text-[var(--text-primary)]">Years of Experience</div>
                     </div>
-                    <div class="stat-item p-6 bg-gray-900 rounded-lg shadow-md border border-[var(--accent)]/50 transition duration-300 hover:bg-gray-900/80">
+                    <div class="stat-item p-6 rounded-lg shadow-md border border-[var(--accent)]/50 transition duration-300 hover:scale-[1.01] hover:shadow-2xl" style="background-color: var(--card-bg);">
                         <div class="stat-number text-4xl font-extrabold text-[var(--accent)] mb-2" data-target="999">0</div>
                         <div class="stat-label text-sm uppercase tracking-wider text-[var(--text-primary)]">Total Projects</div>
                     </div>
@@ -164,17 +257,22 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     
                     <!-- Service Item: Text AMA -->
-                    <div class="service-item bg-gray-900 rounded-xl shadow-lg border border-[var(--accent)]/50 overflow-hidden cursor-pointer service-card-glow service-item-hover-gradient">
+                    <div class="service-item rounded-xl shadow-lg border border-[var(--accent)]/50 overflow-hidden cursor-pointer service-card-glow service-item-hover-gradient" style="background-color: var(--card-bg);">
                         <!-- Card Header -->
                         <div class="p-6 text-xl font-semibold flex flex-col items-start text-[var(--accent)]">
-                            <span class="flex items-center text-white text-2xl mb-1"><span class="mr-3 text-2xl">💬</span>Text AMA</span>
+                            <span class="flex items-center text-[var(--text-primary)] text-2xl mb-1">
+                                <svg class="w-8 h-8 mr-3 service-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 4v-4z"/>
+                                </svg>
+                                Text AMA
+                            </span>
                             <span class="text-sm font-light text-[var(--text-secondary)]">Live text Q&A session.</span>
                             <strong class="text-lg mt-2 text-[var(--highlight-green)]">Cost: $250</strong>
                             <svg class="w-5 h-5 transition-transform duration-300 transform chevron flex-shrink-0 ml-auto -mt-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                         </div>
                         
                         <!-- Service Details (Content preserved exactly) -->
-                        <div class="service-details bg-gray-900/70 border-t border-[var(--accent)]/50 p-4">
+                        <div class="service-details border-t border-[var(--accent)]/50 p-4" style="background-color: var(--bg-secondary);">
                             <h3 class="text-lg font-bold mb-2 text-[var(--accent)]">Text AMA with Crypto World Club</h3>
                             <p class="mb-2 text-sm text-[var(--text-primary)]"><strong>Cost:</strong> $250</p>
                             <h3 class="text-lg font-bold mt-3 mb-1 text-[var(--accent)]">What is a Text AMA?</h3>
@@ -191,22 +289,27 @@
                             <p class="text-sm text-[var(--text-secondary)]">Click the Order Now button below.</p>
                             <a href="#contact" class="order-button mt-4 inline-block px-4 py-2 text-sm font-semibold rounded-full bg-[var(--accent)] text-white hover:bg-red-700 transition duration-300">Order Now</a>
                             <h3 class="text-lg font-bold mt-3 mb-1 text-[var(--accent)]">For Further Assistance:</h3>
-                            <p class="text-xs mt-1 text-red-400">Reach out on <a href="https://t.me/Kavin_World" target="_blank" rel="noopener noreferrer" class="hover:underline">Telegram</a>.</p>
+                            <p class="text-xs mt-1 text-[var(--accent)]">Reach out on <a href="https://t.me/Kavin_World" target="_blank" rel="noopener noreferrer" class="hover:underline">Telegram</a>.</p>
                         </div>
                     </div>
                     
                     <!-- Service Item: Voice AMA -->
-                    <div class="service-item bg-gray-900 rounded-xl shadow-lg border border-[var(--accent)]/50 overflow-hidden cursor-pointer service-card-glow service-item-hover-gradient">
+                    <div class="service-item rounded-xl shadow-lg border border-[var(--accent)]/50 overflow-hidden cursor-pointer service-card-glow service-item-hover-gradient" style="background-color: var(--card-bg);">
                         <!-- Card Header -->
                         <div class="p-6 text-xl font-semibold flex flex-col items-start text-[var(--accent)]">
-                            <span class="flex items-center text-white text-2xl mb-1"><span class="mr-3 text-2xl">🎤</span>Voice AMA</span>
+                            <span class="flex items-center text-[var(--text-primary)] text-2xl mb-1">
+                                <svg class="w-8 h-8 mr-3 service-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a4 4 0 00-4 4v2m4-4a4 4 0 014 4v2"/>
+                                </svg>
+                                Voice AMA
+                            </span>
                             <span class="text-sm font-light text-[var(--text-secondary)]">Live audio Q&A session.</span>
                             <strong class="text-lg mt-2 text-[var(--highlight-green)]">Cost: $400</strong>
                             <svg class="w-5 h-5 transition-transform duration-300 transform chevron flex-shrink-0 ml-auto -mt-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                         </div>
 
                         <!-- Service Details (Content preserved exactly) -->
-                        <div class="service-details bg-gray-900/70 border-t border-[var(--accent)]/50 p-4">
+                        <div class="service-details border-t border-[var(--accent)]/50 p-4" style="background-color: var(--bg-secondary);">
                             <h3 class="text-lg font-bold mb-2 text-[var(--accent)]">Voice AMA with Crypto World Club</h3>
                             <p class="mb-2 text-sm text-[var(--text-primary)]"><strong>Cost:</strong> $400</p>
                             <h3 class="text-lg font-bold mt-3 mb-1 text-[var(--accent)]">What is a Voice AMA?</h3>
@@ -223,25 +326,31 @@
                             <p class="text-sm text-[var(--text-secondary)]">Click the Order Now button below.</p>
                             <a href="#contact" class="order-button mt-4 inline-block px-4 py-2 text-sm font-semibold rounded-full bg-[var(--accent)] text-white hover:bg-red-700 transition duration-300">Order Now</a>
                             <h3 class="text-lg font-bold mt-3 mb-1 text-[var(--accent)]">For Further Assistance:</h3>
-                            <p class="text-xs mt-1 text-red-400">Reach out on <a href="https://t.me/Kavin_World" target="_blank" rel="noopener noreferrer" class="hover:underline">Telegram</a>.</p>
+                            <p class="text-xs mt-1 text-[var(--accent)]">Reach out on <a href="https://t.me/Kavin_World" target="_blank" rel="noopener noreferrer" class="hover:underline">Telegram</a>.</p>
                         </div>
                     </div>
 
                     <!-- Service Item: Video AMA -->
-                    <div class="service-item bg-gray-900 rounded-xl shadow-lg border border-[var(--accent)]/50 overflow-hidden cursor-pointer service-card-glow service-item-hover-gradient">
-                         <div class="absolute top-0 right-0 mt-3 mr-3 px-3 py-1 bg-[var(--highlight-yellow)] text-gray-900 text-xs font-bold rounded-full shadow-md transform rotate-3 z-10">
+                    <div class="service-item rounded-xl shadow-lg border border-[var(--accent)]/50 overflow-hidden cursor-pointer service-card-glow service-item-hover-gradient" style="background-color: var(--card-bg);">
+                         <div class="absolute top-0 right-0 mt-3 mr-3 px-3 py-1 bg-[var(--highlight-yellow)] text-[var(--text-primary)] text-xs font-bold rounded-full shadow-md transform rotate-3 z-10">
                             Top Tier
                         </div>
                         <!-- Card Header -->
                         <div class="p-6 text-xl font-semibold flex flex-col items-start text-[var(--accent)]">
-                            <span class="flex items-center text-white text-2xl mb-1"><span class="mr-3 text-2xl">🎥</span>Video AMA</span>
+                            <span class="flex items-center text-[var(--text-primary)] text-2xl mb-1">
+                                <svg class="w-8 h-8 mr-3 service-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.55 2.275a.5.5 0 010 .905L15 15m-4 6a1 1 0 01-1-1v-4a1 1 0 011-1h6a1 1 0 011 1v4a1 1 0 01-1 1h-6z"/>
+                                    <circle cx="9" cy="8" r="3" stroke-width="2"/>
+                                </svg>
+                                Video AMA
+                            </span>
                             <span class="text-sm font-light text-[var(--text-secondary)]">Live video session.</span>
                             <strong class="text-lg mt-2 text-[var(--highlight-green)]">Cost: $450</strong>
                             <svg class="w-5 h-5 transition-transform duration-300 transform chevron flex-shrink-0 ml-auto -mt-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                         </div>
 
                         <!-- Service Details (Content preserved exactly) -->
-                        <div class="service-details bg-gray-900/70 border-t border-[var(--accent)]/50 p-4">
+                        <div class="service-details border-t border-[var(--accent)]/50 p-4" style="background-color: var(--bg-secondary);">
                             <h3 class="text-lg font-bold mb-2 text-[var(--accent)]">Video AMA with Crypto World Club</h3>
                             <p class="mb-2 text-sm text-[var(--text-primary)]"><strong>Cost:</strong> $450</p>
                             <h3 class="text-lg font-bold mt-3 mb-1 text-[var(--accent)]">What is a Video AMA?</h3>
@@ -258,22 +367,28 @@
                             <p class="text-sm text-[var(--text-secondary)]">Click the Order Now button below.</p>
                             <a href="#contact" class="order-button mt-4 inline-block px-4 py-2 text-sm font-semibold rounded-full bg-[var(--accent)] text-white hover:bg-red-700 transition duration-300">Order Now</a>
                             <h3 class="text-lg font-bold mt-3 mb-1 text-[var(--accent)]">For Further Assistance:</h3>
-                            <p class="text-xs mt-1 text-red-400">Reach out on <a href="https://t.me/Kavin_World" target="_blank" rel="noopener noreferrer" class="hover:underline">Telegram</a>.</p>
+                            <p class="text-xs mt-1 text-[var(--accent)]">Reach out on <a href="https://t.me/Kavin_World" target="_blank" rel="noopener noreferrer" class="hover:underline">Telegram</a>.</p>
                         </div>
                     </div>
 
                     <!-- Service Item: Twitter Space AMA -->
-                    <div class="service-item bg-gray-900 rounded-xl shadow-lg border border-[var(--accent)]/50 overflow-hidden cursor-pointer service-card-glow service-item-hover-gradient">
+                    <div class="service-item rounded-xl shadow-lg border border-[var(--accent)]/50 overflow-hidden cursor-pointer service-card-glow service-item-hover-gradient" style="background-color: var(--card-bg);">
                         <!-- Card Header -->
                         <div class="p-6 text-xl font-semibold flex flex-col items-start text-[var(--accent)]">
-                            <span class="flex items-center text-white text-2xl mb-1"><span class="mr-3 text-2xl">✖️</span>Twitter Space AMA</span>
+                            <span class="flex items-center text-[var(--text-primary)] text-2xl mb-1">
+                                <svg class="w-8 h-8 mr-3 service-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.5 1h-11C5.67 1 5 1.67 5 2.5v19c0 .83.67 1.5 1.5 1.5h11c.83 0 1.5-.67 1.5-1.5V2.5c0-.83-.67-1.5-1.5-1.5z"/>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 21h.01"/>
+                                </svg>
+                                Twitter Space AMA
+                            </span>
                             <span class="text-sm font-light text-[var(--text-secondary)]">Reach Twitter's global audience.</span>
                             <strong class="text-lg mt-2 text-[var(--highlight-green)]">Cost: $350</strong>
                             <svg class="w-5 h-5 transition-transform duration-300 transform chevron flex-shrink-0 ml-auto -mt-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                         </div>
 
                         <!-- Service Details (Content preserved exactly) -->
-                        <div class="service-details bg-gray-900/70 border-t border-[var(--accent)]/50 p-4">
+                        <div class="service-details border-t border-[var(--accent)]/50 p-4" style="background-color: var(--bg-secondary);">
                             <h3 class="text-lg font-bold mb-2 text-[var(--accent)]">Twitter Space AMA with Crypto World Club</h3>
                             <p class="mb-2 text-sm text-[var(--text-primary)]"><strong>Cost:</strong> $350</p>
                             <h3 class="text-lg font-bold mt-3 mb-1 text-[var(--accent)]">What is a Twitter Space AMA?</h3>
@@ -290,25 +405,32 @@
                             <p class="text-sm text-[var(--text-secondary)]">Click the Order Now button below.</p>
                             <a href="#contact" class="order-button mt-4 inline-block px-4 py-2 text-sm font-semibold rounded-full bg-[var(--accent)] text-white hover:bg-red-700 transition duration-300">Order Now</a>
                             <h3 class="text-lg font-bold mt-3 mb-1 text-[var(--accent)]">For Further Assistance:</h3>
-                            <p class="text-xs mt-1 text-red-400">Reach out on <a href="https://t.me/Kavin_World" target="_blank" rel="noopener noreferrer" class="hover:underline">Telegram</a>.</p>
+                            <p class="text-xs mt-1 text-[var(--accent)]">Reach out on <a href="https://t.me/Kavin_World" target="_blank" rel="noopener noreferrer" class="hover:underline">Telegram</a>.</p>
                         </div>
                     </div>
 
                     <!-- Service Item: Binance Live AMA -->
-                    <div class="service-item bg-gray-900 rounded-xl shadow-lg border border-[var(--accent)]/50 overflow-hidden cursor-pointer service-card-glow service-item-hover-gradient">
-                         <div class="absolute top-0 right-0 mt-3 mr-3 px-3 py-1 bg-[var(--highlight-yellow)] text-gray-900 text-xs font-bold rounded-full shadow-md transform rotate-3 z-10">
+                    <div class="service-item rounded-xl shadow-lg border border-[var(--accent)]/50 overflow-hidden cursor-pointer service-card-glow service-item-hover-gradient" style="background-color: var(--card-bg);">
+                         <div class="absolute top-0 right-0 mt-3 mr-3 px-3 py-1 bg-[var(--highlight-yellow)] text-[var(--text-primary)] text-xs font-bold rounded-full shadow-md transform rotate-3 z-10">
                             MAX EXPOSURE
                         </div>
                         <!-- Card Header -->
                         <div class="p-6 text-xl font-semibold flex flex-col items-start text-[var(--accent)]">
-                            <span class="flex items-center text-white text-2xl mb-1"><span class="mr-3 text-2xl">🔶</span>Binance Live AMA</span>
+                            <span class="flex items-center text-[var(--text-primary)] text-2xl mb-1">
+                                <svg class="w-8 h-8 mr-3 service-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 11c0 2.21-1.79 4-4 4s-4-1.79-4-4 1.79-4 4-4 4 1.79 4 4z"/>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l-4-4 4-4 4 4z"/>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11c0 2.21-1.79 4-4 4s-4-1.79-4-4 1.79-4 4-4 4 1.79 4 4z"/>
+                                </svg>
+                                Binance Live AMA
+                            </span>
                             <span class="text-sm font-light text-[var(--text-secondary)]">Access the largest exchange audience.</span>
                             <strong class="text-lg mt-2 text-[var(--highlight-green)]">Cost: $500</strong>
                             <svg class="w-5 h-5 transition-transform duration-300 transform chevron flex-shrink-0 ml-auto -mt-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                         </div>
                         
                         <!-- Service Details (Content preserved exactly) -->
-                        <div class="service-details bg-gray-900/70 border-t border-[var(--accent)]/50 p-4">
+                        <div class="service-details border-t border-[var(--accent)]/50 p-4" style="background-color: var(--bg-secondary);">
                             <h3 class="text-lg font-bold mb-2 text-[var(--accent)]">Binance Live AMA with Crypto World Club</h3>
                             <p class="mb-2 text-sm text-[var(--text-primary)]"><strong>Cost:</strong> $500</p>
                             <h3 class="text-lg font-bold mt-3 mb-1 text-[var(--accent)]">What is a Binance Live AMA?</h3>
@@ -325,22 +447,27 @@
                             <p class="text-sm text-[var(--text-secondary)]">Click the Order Now button below.</p>
                             <a href="#contact" class="order-button mt-4 inline-block px-4 py-2 text-sm font-semibold rounded-full bg-[var(--accent)] text-white hover:bg-red-700 transition duration-300">Order Now</a>
                             <h3 class="text-lg font-bold mt-3 mb-1 text-[var(--accent)]">For Further Assistance:</h3>
-                            <p class="text-xs mt-1 text-red-400">Reach out on <a href="https://t.me/Kavin_World" target="_blank" rel="noopener noreferrer" class="hover:underline">Telegram</a>.</p>
+                            <p class="text-xs mt-1 text-[var(--accent)]">Reach out on <a href="https://t.me/Kavin_World" target="_blank" rel="noopener noreferrer" class="hover:underline">Telegram</a>.</p>
                         </div>
                     </div>
 
                     <!-- Service Item: Giveaway & Airdrop -->
-                    <div class="service-item bg-gray-900 rounded-xl shadow-lg border border-[var(--accent)]/50 overflow-hidden cursor-pointer service-card-glow service-item-hover-gradient">
+                    <div class="service-item rounded-xl shadow-lg border border-[var(--accent)]/50 overflow-hidden cursor-pointer service-card-glow service-item-hover-gradient" style="background-color: var(--card-bg);">
                         <!-- Card Header -->
                         <div class="p-6 text-xl font-semibold flex flex-col items-start text-[var(--accent)]">
-                            <span class="flex items-center text-white text-2xl mb-1"><span class="mr-3 text-2xl">🎁</span>Giveaway & Airdrop</span>
+                            <span class="flex items-center text-[var(--text-primary)] text-2xl mb-1">
+                                <svg class="w-8 h-8 mr-3 service-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                                Giveaway & Airdrop
+                            </span>
                             <span class="text-sm font-light text-[var(--text-secondary)]">Rapid user acquisition.</span>
                             <strong class="text-lg mt-2 text-[var(--highlight-green)]">Cost: $200</strong>
                             <svg class="w-5 h-5 transition-transform duration-300 transform chevron flex-shrink-0 ml-auto -mt-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                         </div>
 
                         <!-- Service Details (Content preserved exactly) -->
-                        <div class="service-details bg-gray-900/70 border-t border-[var(--accent)]/50 p-4">
+                        <div class="service-details border-t border-[var(--accent)]/50 p-4" style="background-color: var(--bg-secondary);">
                             <h3 class="text-lg font-bold mb-2 text-[var(--accent)]">Giveaway & Airdrop with Crypto World Club</h3>
                             <p class="mb-2 text-sm text-[var(--text-primary)]"><strong>Cost:</strong> $200</p>
                             <h3 class="text-lg font-bold mt-3 mb-1 text-[var(--accent)]">What is a Giveaway & Airdrop?</h3>
@@ -357,25 +484,30 @@
                             <p class="text-sm text-[var(--text-secondary)]">Click the Order Now button below.</p>
                             <a href="#contact" class="order-button mt-4 inline-block px-4 py-2 text-sm font-semibold rounded-full bg-[var(--accent)] text-white hover:bg-red-700 transition duration-300">Order Now</a>
                             <h3 class="text-lg font-bold mt-3 mb-1 text-[var(--accent)]">For Further Assistance:</h3>
-                            <p class="text-xs mt-1 text-red-400">Reach out on <a href="https://t.me/Kavin_World" target="_blank" rel="noopener noreferrer" class="hover:underline">Telegram</a>.</p>
+                            <p class="text-xs mt-1 text-[var(--accent)]">Reach out on <a href="https://t.me/Kavin_World" target="_blank" rel="noopener noreferrer" class="hover:underline">Telegram</a>.</p>
                         </div>
                     </div>
                     
                     <!-- Service Item: Partnership Service -->
-                    <div class="service-item bg-gray-900 rounded-xl shadow-lg border border-[var(--accent)]/50 overflow-hidden cursor-pointer service-card-glow service-item-hover-gradient">
+                    <div class="service-item rounded-xl shadow-lg border border-[var(--accent)]/50 overflow-hidden cursor-pointer service-card-glow service-item-hover-gradient" style="background-color: var(--card-bg);">
                          <div class="absolute top-0 right-0 mt-3 mr-3 px-3 py-1 bg-red-700 text-white text-xs font-bold rounded-full shadow-md transform rotate-3 z-10">
                             PREMIUM
                         </div>
                         <!-- Card Header -->
                         <div class="p-6 text-xl font-semibold flex flex-col items-start text-[var(--accent)]">
-                            <span class="flex items-center text-white text-2xl mb-1"><span class="mr-3 text-2xl">🤝</span>Partnership Service</span>
+                            <span class="flex items-center text-[var(--text-primary)] text-2xl mb-1">
+                                <svg class="w-8 h-8 mr-3 service-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20v-3m-6-10V4m-2 16h8a2 2 0 002-2v-3m-12 0h8a2 2 0 002-2V7a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                                </svg>
+                                Partnership Service
+                            </span>
                             <span class="text-sm font-light text-[var(--text-secondary)]">Strategic, long-term growth.</span>
                             <strong class="text-lg mt-2 text-[var(--highlight-green)]">Cost: $1,200</strong>
                             <svg class="w-5 h-5 transition-transform duration-300 transform chevron flex-shrink-0 ml-auto -mt-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                         </div>
 
                         <!-- Service Details (Content preserved exactly) -->
-                        <div class="service-details bg-gray-900/70 border-t border-[var(--accent)]/50 p-4">
+                        <div class="service-details border-t border-[var(--accent)]/50 p-4" style="background-color: var(--bg-secondary);">
                             <h3 class="text-lg font-bold mb-2 text-[var(--accent)]">Partnership Service with Crypto World Club</h3>
                             <p class="mb-2 text-sm text-[var(--text-primary)]"><strong>Cost:</strong> $1200</p>
                             <h3 class="text-lg font-bold mt-3 mb-1 text-[var(--accent)]">What is a Partnership Service?</h3>
@@ -392,22 +524,28 @@
                             <p class="text-sm text-[var(--text-secondary)]">Click the Order Now button below.</p>
                             <a href="#contact" class="order-button mt-4 inline-block px-4 py-2 text-sm font-semibold rounded-full bg-[var(--accent)] text-white hover:bg-red-700 transition duration-300">Order Now</a>
                             <h3 class="text-lg font-bold mt-3 mb-1 text-[var(--accent)]">For Further Assistance:</h3>
-                            <p class="text-xs mt-1 text-red-400">Reach out on <a href="https://t.me/Kavin_World" target="_blank" rel="noopener noreferrer" class="hover:underline">Telegram</a>.</p>
+                            <p class="text-xs mt-1 text-[var(--accent)]">Reach out on <a href="https://t.me/Kavin_World" target="_blank" rel="noopener noreferrer" class="hover:underline">Telegram</a>.</p>
                         </div>
                     </div>
                     
                     <!-- Service Item: Pin-Post -->
-                    <div class="service-item bg-gray-900 rounded-xl shadow-lg border border-[var(--accent)]/50 overflow-hidden cursor-pointer service-card-glow service-item-hover-gradient">
+                    <div class="service-item rounded-xl shadow-lg border border-[var(--accent)]/50 overflow-hidden cursor-pointer service-card-glow service-item-hover-gradient" style="background-color: var(--card-bg);">
                         <!-- Card Header -->
                         <div class="p-6 text-xl font-semibold flex flex-col items-start text-[var(--accent)]">
-                            <span class="flex items-center text-white text-2xl mb-1"><span class="mr-3 text-2xl">📌</span>Pin-Post</span>
+                            <span class="flex items-center text-[var(--text-primary)] text-2xl mb-1">
+                                <svg class="w-8 h-8 mr-3 service-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 11c0 2.21-1.79 4-4 4s-4-1.79-4-4 1.79-4 4-4 4 1.79 4 4z"/>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 19v-5m0 0a2 2 0 00-2-2h-2m2 2l-2-2m2 2l2-2"/>
+                                </svg>
+                                Pin-Post
+                            </span>
                             <span class="text-sm font-light text-[var(--text-secondary)]">High-visibility pinned promotion.</span>
                             <strong class="text-lg mt-2 text-[var(--highlight-green)]">Cost: $150</strong>
                             <svg class="w-5 h-5 transition-transform duration-300 transform chevron flex-shrink-0 ml-auto -mt-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                         </div>
 
                         <!-- Service Details (Content preserved exactly) -->
-                        <div class="service-details bg-gray-900/70 border-t border-[var(--accent)]/50 p-4">
+                        <div class="service-details border-t border-[var(--accent)]/50 p-4" style="background-color: var(--bg-secondary);">
                             <h3 class="text-lg font-bold mb-2 text-[var(--accent)]">Telegram + Twitter Pin-Post with Crypto World Club</h3>
                             <p class="mb-2 text-sm text-[var(--text-primary)]"><strong>Cost:</strong> $150</p>
                             <h3 class="text-lg font-bold mt-3 mb-1 text-[var(--accent)]">What is a Pin-Post?</h3>
@@ -424,22 +562,27 @@
                             <p class="text-sm text-[var(--text-secondary)]">Click the Order Now button below.</p>
                             <a href="#contact" class="order-button mt-4 inline-block px-4 py-2 text-sm font-semibold rounded-full bg-[var(--accent)] text-white hover:bg-red-700 transition duration-300">Order Now</a>
                             <h3 class="text-lg font-bold mt-3 mb-1 text-[var(--accent)]">For Further Assistance:</h3>
-                            <p class="text-xs mt-1 text-red-400">Reach out on <a href="https://t.me/Kavin_World" target="_blank" rel="noopener noreferrer" class="hover:underline">Telegram</a>.</p>
+                            <p class="text-xs mt-1 text-[var(--accent)]">Reach out on <a href="https://t.me/Kavin_World" target="_blank" rel="noopener noreferrer" class="hover:underline">Telegram</a>.</p>
                         </div>
                     </div>
 
                     <!-- Service Item: CMC-Post -->
-                    <div class="service-item bg-gray-900 rounded-xl shadow-lg border border-[var(--accent)]/50 overflow-hidden cursor-pointer service-card-glow service-item-hover-gradient">
+                    <div class="service-item rounded-xl shadow-lg border border-[var(--accent)]/50 overflow-hidden cursor-pointer service-card-glow service-item-hover-gradient" style="background-color: var(--card-bg);">
                         <!-- Card Header -->
                         <div class="p-6 text-xl font-semibold flex flex-col items-start text-[var(--accent)]">
-                            <span class="flex items-center text-white text-2xl mb-1"><span class="mr-3 text-2xl">✍️</span>CMC-Post</span>
+                            <span class="flex items-center text-[var(--text-primary)] text-2xl mb-1">
+                                <svg class="w-8 h-8 mr-3 service-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-14 0h12m-6-6v12m-2-4h4"/>
+                                </svg>
+                                CMC-Post
+                            </span>
                             <span class="text-sm font-light text-[var(--text-secondary)]">Premium article/blog creation.</span>
                             <strong class="text-lg mt-2 text-[var(--highlight-green)]">Cost: $250</strong>
                             <svg class="w-5 h-5 transition-transform duration-300 transform chevron flex-shrink-0 ml-auto -mt-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                         </div>
 
                         <!-- Service Details (Content preserved exactly) -->
-                        <div class="service-details bg-gray-900/70 border-t border-[var(--accent)]/50 p-4">
+                        <div class="service-details border-t border-[var(--accent)]/50 p-4" style="background-color: var(--bg-secondary);">
                             <h3 class="text-lg font-bold mb-2 text-[var(--accent)]">Premium Article/Blog Post Creation</h3>
                             <p class="mb-2 text-sm text-[var(--text-primary)]"><strong>Cost:</strong> $250</p>
                             <h3 class="text-lg font-bold mt-3 mb-1 text-[var(--accent)]">What is a CMS-Post Service?</h3>
@@ -456,7 +599,7 @@
                             <p class="text-sm text-[var(--text-secondary)]">Click the Order Now button below to submit your topic and requirements.</p>
                             <a href="#contact" class="order-button mt-4 inline-block px-4 py-2 text-sm font-semibold rounded-full bg-[var(--accent)] text-white hover:bg-red-700 transition duration-300">Order Now</a>
                             <h3 class="text-lg font-bold mt-3 mb-1 text-[var(--accent)]">For Further Assistance:</h3>
-                            <p class="text-xs mt-1 text-red-400">Reach out to us on <a href="https://t.me/Kavin_World" target="_blank" rel="noopener noreferrer" class="hover:underline">Telegram</a> for custom content packages or questions.</p>
+                            <p class="text-xs mt-1 text-[var(--accent)]">Reach out to us on <a href="https://t.me/Kavin_World" target="_blank" rel="noopener noreferrer" class="hover:underline">Telegram</a> for custom content packages or questions.</p>
                         </div>
                     </div>
                 </div>
@@ -472,10 +615,11 @@
                 </div>
                 <p class="mb-6 text-[var(--text-primary)]">Reach out to DAYTON, the owner, for all inquiries or to book our services.</p>
                 <div class="flex flex-col sm:flex-row justify-center gap-4">
-                    <a href="https://t.me/Kavin_World" target="_blank" rel="noopener noreferrer" class="contact-link px-6 py-3 font-semibold rounded-full bg-[var(--accent)] text-white hover:bg-red-700 transition duration-300 shadow-md">
+                    <a href="https://t.me/Kavin_World" target="_blank" rel="noopener noreferrer" class="contact-link px-6 py-3 font-semibold rounded-full bg-[var(--accent)] text-white hover:bg-red-700 transition duration-300 shadow-md order-button">
                         Telegram Chat
                     </a>
-                    <a href="https://x.com/Cryptoelephanta" target="_blank" rel="noopener noreferrer" class="contact-link px-6 py-3 font-semibold rounded-full bg-gray-900 text-white border border-[var(--accent)] hover:bg-gray-700 transition duration-300 shadow-md">
+                    <!-- Twitter button with hover text fix -->
+                    <a href="https://x.com/CRYPTO_WORLD_CB" target="_blank" rel="noopener noreferrer" class="contact-link px-6 py-3 font-semibold rounded-full bg-[var(--card-bg)] text-[var(--text-primary)] border border-[var(--accent)] hover:bg-gray-200 hover:text-gray-900 transition duration-300 shadow-md order-button">
                         Twitter Chat
                     </a>
                 </div>
@@ -487,16 +631,16 @@
     <footer class="bg-[var(--bg-secondary)] py-8 text-center border-t border-[var(--accent)]/50">
         <p class="text-[var(--text-secondary)] mb-4">© 2025 Crypto World Club</p>
         <div class="flex justify-center flex-wrap gap-6 px-4" id="social-media">
-            <a href="https://t.me/CryptoWorldClubAMA" target="_blank" rel="noopener noreferrer" class="flex items-center text-[var(--text-primary)] hover:text-[var(--accent)] transition duration-300">
+            <a href="https://t.me/CryptoWorldClubAMA" target="_blank" rel="noopener noreferrer" class="flex items-center text-[var(--text-primary)] hover:text-[var(--accent)] transition duration-300 hover:scale-105">
                 <img src="assets/imges/tg_chat.png" alt="Telegram Group Logo" class="w-5 h-5 mr-2"> Telegram Group
             </a>
-            <a href="https://t.me/CryptoWorldClub_News" target="_blank" rel="noopener noreferrer" class="flex items-center text-[var(--text-primary)] hover:text-[var(--accent)] transition duration-300">
+            <a href="https://t.me/CryptoWorldClub_News" target="_blank" rel="noopener noreferrer" class="flex items-center text-[var(--text-primary)] hover:text-[var(--accent)] transition duration-300 hover:scale-105">
                 <img src="assets/imges/tg_group.png" alt="Telegram Channel Logo" class="w-5 h-5 mr-2"> Telegram Channel
             </a>
-            <a href="https://x.com/CRYPTO_WORLD_CB" target="_blank" rel="noopener noreferrer" class="flex items-center text-[var(--text-primary)] hover:text-[var(--accent)] transition duration-300">
+            <a href="https://x.com/CRYPTO_WORLD_CB" target="_blank" rel="noopener noreferrer" class="flex items-center text-[var(--text-primary)] hover:text-[var(--accent)] transition duration-300 hover:scale-105">
                 <img src="assets/imges/x.png" alt="X Logo" class="w-5 h-5 mr-2"> Twitter
             </a>
-            <a href="https://www.binance.com/en/live/u/24414050" target="_blank" rel="noopener noreferrer" class="flex items-center text-[var(--text-primary)] hover:text-[var(--accent)] transition duration-300">
+            <a href="https://www.binance.com/en/live/u/24414050" target="_blank" rel="noopener noreferrer" class="flex items-center text-[var(--text-primary)] hover:text-[var(--accent)] transition duration-300 hover:scale-105">
                 <img src="assets/imges/binance.png" alt="Binance Logo" class="w-5 h-5 mr-2"> Binance Live
             </a>
         </div>
@@ -506,16 +650,19 @@
         // Smooth scrolling for navigation links and order buttons
         document.querySelectorAll('.nav-link, .order-button').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
-                // Check if the link is a hashtag link (internal)
-                if (this.getAttribute('href').startsWith('#')) {
+                // Get the href attribute. It might be null for buttons (like theme-toggle).
+                const href = this.getAttribute('href'); 
+                
+                // Only proceed with smooth scrolling logic if href exists and starts with '#'
+                if (href && href.startsWith('#')) {
                     e.preventDefault();
-                    const targetId = this.getAttribute('href').substring(1);
+                    const targetId = href.substring(1);
                     const targetElement = document.getElementById(targetId);
                     if (targetElement) {
                         targetElement.scrollIntoView({ behavior: 'smooth' });
                     }
                 }
-                // If it's an external link (like Telegram), let it proceed naturally
+                // If it's null (a button) or an external link, let it proceed naturally
             });
         });
 
@@ -580,6 +727,14 @@
             const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
             body.setAttribute('data-theme', newTheme);
             document.querySelector('.theme-toggle').textContent = newTheme === 'dark' ? 'Light Mode' : 'Dark Mode';
+            
+            // Re-apply hover styles to home tags immediately after theme switch
+            document.querySelectorAll('.home-tag-item').forEach(tag => {
+                // In light mode, tags look different, forcing a small re-render helps consistency
+                tag.style.transition = 'none'; 
+                void tag.offsetWidth; // Trigger reflow
+                tag.style.transition = '';
+            });
         }
 
         // Counting animation for stats
